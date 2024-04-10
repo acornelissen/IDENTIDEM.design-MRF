@@ -941,6 +941,9 @@ void setup()
   lidarSerial.begin(115200, SERIAL_8N1, RXD2, TXD2);
   delay(20);
   tfluna.begin(&lidarSerial);
+  tfluna.sendCommand( SOFT_RESET, 0);
+  delay(500);
+  tfluna.sendCommand( SET_FRAME_RATE, FRAME_20);
 
   // Clear the moving average arrays
   for (int i = 0; i < SMOOTHING_WINDOW_SIZE; i++)
