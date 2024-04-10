@@ -91,7 +91,7 @@ float prev_aperture;
 float aperture;
 float prev_lux = 0;
 float lux = 0;
-String shutter_speed = "1/500";
+String shutter_speed = "...";
 int iso_index = 5;
 int aperture_index;
 
@@ -110,8 +110,6 @@ String lens_distance_cm = "...";
 // LiDAR distance
 int prev_distance = 0;
 int16_t distance = 0;    // Distance to object in centimeters
-int16_t strength = 0;    // Strength or quality of return signal
-int16_t temperature = 0; // Internal temperature of Lidar sensor chip
 String distance_cm = "...";
 
 // Battery gauge
@@ -359,7 +357,7 @@ void cycleFormats() {
 // ---------------------
 void setDistance()
 {
-    if (tfluna.getData(distance, strength, temperature))
+    if (tfluna.getData(distance))
     { // Get data from Lidar
 			if (distance != prev_distance)
 			{
