@@ -21,4 +21,5 @@ It requires the following hardwaren (for now), in addition to the Feather:
 - BH1750 Lux Sensor -> for the lightmeter
 - Sakae / Caldaro S8FLP-10A-10K linear position sensor -> this couples to the Mamiya Press Lens rangefinder mechanism to measure lens position
 - A KY-040 Rotary Encoder on a breakout board (like [this one](https://www.amazon.co.uk/KY-040-Encoder-Development-Arduino-including/dp/B09726Y8RB))
+- Two push buttons for navigation
 
