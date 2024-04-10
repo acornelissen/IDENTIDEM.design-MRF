@@ -1048,6 +1048,5 @@ void loop()
   }
 
   drawExternalUI();
-	drawExternalUI();
 }
 // ---------------------
