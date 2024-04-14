@@ -1,0 +1,181 @@
+
+
+// Functions to read values from sensors and set variables
+// ---------------------
+void setDistance()
+{
+  if (tfluna.getData(distance))
+  { // Get data from Lidar
+    if (distance != prev_distance)
+    {
+      distance = calcMovingAvg(1, distance);
+      prev_distance = distance;
+
+      if (distance <= DISTANCE_MIN)
+      {
+        distance_cm = "< " + String(DISTANCE_MIN) + "cm";
+      }
+      else if (distance >= DISTANCE_MAX)
+      {
+         distance_cm = "> " + String(DISTANCE_MAX) + "cm";
+      }
+      else {
+        distance_cm = cmToReadable(distance);
+      }
+    }
+  }
+  else {
+    distance_cm = "> " + String(DISTANCE_MAX) + "cm";
+  }
+}
+
+// Borrows moving average code from
+// https://github.com/makeabilitylab/arduino/blob/master/Filters/MovingAverageFilter/MovingAverageFilter.ino
+int getLensSensorReading()
+{
+  int sensorVal = analogRead(A1);
+  return calcMovingAvg(0, sensorVal) / 10;
+}
+
+void setLensDistance()
+{
+
+  lens_sensor_reading = getLensSensorReading();
+
+  if (lens_sensor_reading != prev_lens_sensor_reading)
+  {
+    lastActivityTime = millis();
+    prev_lens_sensor_reading = lens_sensor_reading;
+
+    for (int i = 0; i < sizeof(lenses[selected_lens].sensor_reading) / sizeof(lenses[selected_lens].sensor_reading[0]); i++)
+    {
+      if (lens_sensor_reading > lenses[selected_lens].sensor_reading[0])
+      {
+        lens_distance_raw = lenses[selected_lens].distance[0] * 100;
+        lens_distance_cm = cmToReadable(lens_distance_raw);
+      }
+      else if (lens_sensor_reading < lenses[selected_lens].sensor_reading[sizeof(lenses[selected_lens].sensor_reading) / sizeof(lenses[selected_lens].sensor_reading[0]) - 1])
+      {
+        lens_distance_raw = 9999999;
+        lens_distance_cm = "Inf.";
+      }
+      if (lens_sensor_reading == lenses[selected_lens].sensor_reading[i])
+      {
+        lens_distance_raw = lenses[selected_lens].distance[i] * 100;
+        lens_distance_cm = cmToReadable(lens_distance_raw);
+      }
+      else if (lens_sensor_reading < lenses[selected_lens].sensor_reading[i] && lens_sensor_reading > lenses[selected_lens].sensor_reading[i + 1])
+      {
+        float distance = lenses[selected_lens].distance[i] + (lens_sensor_reading - lenses[selected_lens].sensor_reading[i]) * (lenses[selected_lens].distance[i + 1] - lenses[selected_lens].distance[i]) / (lenses[selected_lens].sensor_reading[i + 1] - lenses[selected_lens].sensor_reading[i]);
+        lens_distance_raw = distance * 100;
+        lens_distance_cm = cmToReadable(lens_distance_raw);
+      }
+    }
+    Serial.println(lens_distance_raw);
+  }
+}
+
+void setFilmCounter()
+{
+  if (encoder.getCount() > prev_encoder_value)
+  {
+    lastActivityTime = millis();
+    encoder_value = encoder.getCount();
+    if (encoder_value != prev_encoder_value)
+    {
+      prev_encoder_value = encoder_value;
+
+      for (int i = 0; i < sizeof(film_formats[selected_format].sensor) / sizeof(film_formats[selected_format].sensor[0]); i++)
+      {
+        if (film_formats[selected_format].sensor[i] == encoder_value)
+        {
+          film_counter = film_formats[selected_format].frame[i];
+          frame_progress = 0;
+        }
+        else if (film_formats[selected_format].sensor[i] < encoder_value && encoder_value < film_formats[selected_format].sensor[i + 1])
+        {
+          film_counter = film_formats[selected_format].frame[i];
+          frame_progress = static_cast<float>(encoder_value - film_formats[selected_format].sensor[i]) / (film_formats[selected_format].sensor[i + 1] - film_formats[selected_format].sensor[i]);
+        }
+      }
+      savePrefs();
+    }
+  }
+}
+
+void setVoltage()
+{
+
+  bat_per = maxlipo.cellPercent();
+  if (bat_per > 100)
+  {
+    bat_per = 100;
+  }
+
+  if (bat_per != prev_bat_per)
+  {
+    prev_bat_per = bat_per;
+  }
+}
+
+void setLightMeter()
+{
+  lux = lightMeter.readLightLevel();
+
+  if (lux != prev_lux)
+  {
+    prev_lux = lux;
+    if (lux <= 0)
+    {
+      shutter_speed = "Dark!";
+    }
+    else
+    {
+
+      if (aperture == 0)
+      {
+        cycleApertures("up");
+      }
+
+      float speed = round(((aperture * aperture) * K) / (lux * iso) * 1000.0) / 1000.0;
+
+      struct SpeedRange
+      {
+        float lower;
+        float upper;
+        const char *print_speed_range;
+      };
+
+      SpeedRange speed_ranges[] = {
+          {0.001, 0.002, "1/1000"},
+          {0.002, 0.004, "1/500"},
+          {0.004, 0.008, "1/250"},
+          {0.008, 0.016, "1/125"},
+          {0.016, 0.033, "1/60"},
+          {0.033, 0.066, "1/30"},
+          {0.066, 0.125, "1/15"},
+          {0.125, 0.250, "1/8"},
+          {0.250, 0.500, "1/4"},
+          {0.500, 1, "1/2"}};
+
+      char print_speed[10];
+      dtostrf(speed, 4, 1, print_speed);
+
+      for (int i = 0; i < sizeof(speed_ranges) / sizeof(speed_ranges[0]); i++)
+      {
+        if (speed_ranges[i].lower <= speed && speed < speed_ranges[i].upper)
+        {
+          strcpy(print_speed, speed_ranges[i].print_speed_range);
+          break;
+        }
+      }
+
+      shutter_speed = print_speed;
+      if (speed >= 0.500)
+      {
+        shutter_speed = String(print_speed) + "s";
+      }
+    }
+  }
+}
+// ---------------------
