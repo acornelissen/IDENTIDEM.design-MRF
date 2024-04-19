@@ -1,12 +1,21 @@
+// IDENTIDEM.design (M)edium Format (R)ange(F)inder firmware vPro.3.0
+//
+// Pro version of MRF firmware uses
+// - Adafruit STEMMA I2C QT Rotary Encoder breakout 4991
+// - TFMini Plus LiDAR sensor
+// - Bigger optics
+
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_SSD1306.h>
+#include <Adafruit_SH110X.h>
 #include <Adafruit_MAX1704X.h>
 #include <TFMPlus.h>
 #include <BH1750.h>
 #include <U8g2_for_Adafruit_GFX.h>
 #include <Bounce2.h>
-#include <ESP32Encoder.h>
+#include <Adafruit_seesaw.h>
+#include <seesaw_neopixel.h>
 #include <Preferences.h>
 
 //Constants and variables
@@ -36,20 +45,17 @@ void setup()
 
   // Initialise inputs
   pinMode(A1, INPUT);
-  lbutton.attach(9, INPUT_PULLUP);
+  lbutton.attach(10, INPUT_PULLUP);
   lbutton.interval(5);
   lbutton.setPressedState(LOW);
-  rbutton.attach(10, INPUT_PULLUP);
+  rbutton.attach(9, INPUT_PULLUP);
   rbutton.interval(5);
   rbutton.setPressedState(LOW);
 
   delay(1000); // Slight delay or the displays won't work
-  display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);
-  Wire.beginTransmission(SCREEN_ADDRESS); // START I2C COMMUNICATION WITH OLED (0x3c=OLED ADDRESS)
-  Wire.write(0x80);
-  Wire.write(0xC0); // COM SCAN DIRECTION  0XC0 - Reverse scan direction, OxC8 - Normal scan direction
-  Wire.endTransmission();
-  display.setRotation(1);
+  display.begin(0x3D, true); // Address 0x3D default
+  display.oled_command(0xC8);
+  display.setRotation(3);
   u8g2.begin(display);
   display.clearDisplay();
   display.display();
@@ -62,7 +68,7 @@ void setup()
   display_ext.setTextSize(2); // Draw 2X-scale text
   display_ext.setTextColor(SSD1306_WHITE);
   display_ext.setCursor(20, 10);
-  display_ext.println(F("MRF v2.5"));
+  display_ext.println(F("MRF v3.0"));
   display_ext.display();
 
   delay(1500);
@@ -86,11 +92,18 @@ void setup()
   maxlipo.begin();
   lightMeter.begin();
 
-  // Start the encoder
-  ESP32Encoder::useInternalWeakPullResistors = puType::up;
-  encoder.attachSingleEdge(13, 12);
-  encoder.setFilter(1023);
-  encoder.setCount(encoder_value);
+  // // Seesaw NEOpixel
+  delay(10);
+  sspixel.setBrightness(70);
+  sspixel.show();
+
+  // // Start the encoder
+  if (encoder.begin(SEESAW_ADDR)) {
+    delay(10);
+    encoder.setEncoderPosition(encoder_value);
+    delay(10);
+    encoder.enableEncoderInterrupt();
+  }
 }
 
 void loop()
