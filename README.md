@@ -16,10 +16,11 @@ so no need to faff about with voltage dividers and guesstimate how much battery 
 It requires the following hardwaren (for now), in addition to the Feather:
 
 - TFLuna/TFMini/TFMini Plus "LiDAR" sensor -> for measuring distance to subject
-- 128x64 OLED I2C display at 0x3D -> for viewfinder HUD display
+- 128x128 OLED I2C display at 0x3D -> for viewfinder HUD display
 - 124x32 OLED I2C display at 0x3C -> external display for displaying frame counter and some other info
 - BH1750 Lux Sensor -> for the lightmeter
 - Sakae / Caldaro S8FLP-10A-10K linear position sensor -> this couples to the Mamiya Press Lens rangefinder mechanism to measure lens position
-- A KY-040 Rotary Encoder on a breakout board (like [this one](https://www.amazon.co.uk/KY-040-Encoder-Development-Arduino-including/dp/B09726Y8RB))
+- Adafruit Seesaw STEMMA I2C Rotary Encoder breakout (Product code 4991)
+- PEC11 Rotary Encoder (6mm D-shaft)
 - Two push buttons for navigation
 
