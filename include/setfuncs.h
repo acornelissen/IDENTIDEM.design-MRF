@@ -1,5 +1,3 @@
-
-
 // Functions to read values from sensors and set variables
 // ---------------------
 void setDistance()
@@ -77,29 +75,45 @@ void setLensDistance()
 
 void setFilmCounter()
 {
-  if (encoder.getCount() > prev_encoder_value)
+  int encoder_position = -encoder.getEncoderPosition();
+  Serial.println(encoder_position);
+  if (encoder_position != prev_encoder_value && encoder_position > prev_encoder_value)
   {
-    lastActivityTime = millis();
-    encoder_value = encoder.getCount();
-    if (encoder_value != prev_encoder_value)
-    {
-      prev_encoder_value = encoder_value;
+    encoder_value = encoder_position;
+    prev_encoder_value = encoder_value;
 
-      for (int i = 0; i < sizeof(film_formats[selected_format].sensor) / sizeof(film_formats[selected_format].sensor[0]); i++)
+    for (int i = 0; i < sizeof(film_formats[selected_format].sensor) / sizeof(film_formats[selected_format].sensor[0]); i++)
+    {
+      if (film_formats[selected_format].sensor[i] == encoder_value)
       {
-        if (film_formats[selected_format].sensor[i] == encoder_value)
-        {
-          film_counter = film_formats[selected_format].frame[i];
-          frame_progress = 0;
-        }
-        else if (film_formats[selected_format].sensor[i] < encoder_value && encoder_value < film_formats[selected_format].sensor[i + 1])
-        {
-          film_counter = film_formats[selected_format].frame[i];
-          frame_progress = static_cast<float>(encoder_value - film_formats[selected_format].sensor[i]) / (film_formats[selected_format].sensor[i + 1] - film_formats[selected_format].sensor[i]);
-        }
+        film_counter = film_formats[selected_format].frame[i];
+        frame_progress = 0;
       }
-      savePrefs();
+      else if (film_formats[selected_format].sensor[i] < encoder_value && encoder_value < film_formats[selected_format].sensor[i + 1])
+      {
+        film_counter = film_formats[selected_format].frame[i];
+        frame_progress = static_cast<float>(encoder_value - film_formats[selected_format].sensor[i]) / (film_formats[selected_format].sensor[i + 1] - film_formats[selected_format].sensor[i]);
+      }
     }
+
+    // if (frame_progress == 0) {
+    //   // Set Neopixel color to blue
+    //   sspixel.setPixelColor(0, sspixel.Color(0, 0, 255));
+    // } else if (frame_progress == 1) {
+    //   // Set Neopixel color to red
+    //   sspixel.setPixelColor(0, sspixel.Color(255, 0, 0));
+    // } else if (frame_progress == 99) {
+    //   // Set Neopixel color to green
+    //   sspixel.setPixelColor(0, sspixel.Color(0, 255, 0));
+    // } else if (frame_progress > 0 && frame_progress < 99) {
+    //   // Calculate the transition color between red and green based on frame_progress
+    //   int red = 255 * (99 - frame_progress) / 98;
+    //   int green = 255 * frame_progress / 98;
+    //   // Set Neopixel color to the calculated color
+    //   sspixel.setPixelColor(0, sspixel.Color(red, green, 0));
+    // }
+    // sspixel.show();
+    savePrefs();
   }
 }
 

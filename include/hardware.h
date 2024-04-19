@@ -1,7 +1,9 @@
 // Hardware init
 // ---------------------
 // Inputs
-ESP32Encoder encoder;
+Adafruit_seesaw encoder;
+
+seesaw_NeoPixel sspixel = seesaw_NeoPixel(1, SS_NEOPIX, NEO_GRB + NEO_KHZ800);
 Bounce2::Button lbutton = Bounce2::Button();
 Bounce2::Button rbutton = Bounce2::Button();
 
@@ -16,7 +18,7 @@ TFMPlus tfluna;
 HardwareSerial lidarSerial(2); // Using serial port 2
 
 // Display setup
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+Adafruit_SH1107 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET, 1000000, 1000000);
 Adafruit_SSD1306 display_ext(SCREEN_WIDTH, SCREEN_HEIGHT_EXT, &Wire, OLED_RESET);
 U8G2_FOR_ADAFRUIT_GFX u8g2;
 U8G2_FOR_ADAFRUIT_GFX u8g2_ext;

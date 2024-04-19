@@ -83,7 +83,7 @@ void checkButtons()
         }
         else if (config_step == 4)
         {
-          encoder.setCount(0);
+          encoder.setEncoderPosition(0);
           encoder_value = 0;
           prev_encoder_value = 0;
           film_counter = 0;
