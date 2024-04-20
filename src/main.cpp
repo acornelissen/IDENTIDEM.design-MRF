@@ -100,8 +100,7 @@ void setup()
   // // Start the encoder
   if (encoder.begin(SEESAW_ADDR)) {
     delay(10);
-    encoder.setEncoderPosition(encoder_value);
-    delay(10);
+    encoder.setEncoderPosition(-encoder_value);
     encoder.enableEncoderInterrupt();
   }
 }

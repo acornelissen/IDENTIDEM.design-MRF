@@ -60,13 +60,14 @@ void savePrefs()
 
 String cmToReadable(int cm)
 {
+
   if (cm < 100)
   {
     return String(cm) + "cm";
   }
   else
   {
-    return String(float(cm) / 100, 2) + "m";
+    return String(float(cm) / 100, 1) + "m";
   }
 }
 

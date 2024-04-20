@@ -9,17 +9,12 @@ void drawMainUI()
   u8g2.setForegroundColor(BLACK);
   u8g2.setBackgroundColor(WHITE);
   u8g2.setFont(u8g2_font_4x6_mf);
-  display.fillRect(0, 7, 64, 31, WHITE);
-  display.drawLine(0, 17, 64, 17, BLACK);
-  display.drawLine(0, 27, 64, 27, BLACK);
-  display.drawLine(31, 0, 31, 40, BLACK);
-  u8g2.setCursor(3, 15);
-  u8g2.print(bat_per);
-  u8g2.print(F("%"));
-  u8g2.setCursor(35, 15);
+  display.fillRect(0, 0, 128, 15, WHITE);
+  display.drawLine(64, 0, 64, 128, BLACK);
+  u8g2.setCursor(2, 7);
   u8g2.print(F("ISO"));
   u8g2.print(iso);
-  u8g2.setCursor(3, 25);
+  u8g2.setCursor(46, 7);
   u8g2.print(F("f"));
   if (aperture == static_cast<int>(aperture))
   {
@@ -29,20 +24,29 @@ void drawMainUI()
   {
     u8g2.print(aperture, 1);
   }
-  u8g2.setCursor(34, 25);
+  u8g2.setCursor(2, 14);
   u8g2.print(shutter_speed);
-  u8g2.setCursor(3, 35);
-  u8g2.print(F("D:"));
+  u8g2.setCursor(68, 7);
+  u8g2.print(F("Dist:"));
   u8g2.print(distance_cm);
-  u8g2.setCursor(34, 35);
-  u8g2.print(F("L:"));
+  u8g2.setCursor(68, 14);
+  u8g2.print(F("Lens:"));
   u8g2.print(lens_distance_cm);
 
-  ReticlePosition reticlePosition = calculateReticlePosition(distance);
+  //ReticlePosition reticlePosition = calculateReticlePosition(distance);
 
-  display.drawRect(-18, 42, 99, 85, WHITE);
-  display.fillCircle(reticlePosition.x, reticlePosition.y, 2, WHITE);
-  display.drawCircle(reticlePosition.x, reticlePosition.y, getFocusRadius(), WHITE);
+
+  display.fillRect(lenses[selected_lens].framelines[0], lenses[selected_lens].framelines[1], lenses[selected_lens].framelines[2], lenses[selected_lens].framelines[3], WHITE);
+  display.fillRect(film_formats[selected_format].framelines[0], film_formats[selected_format].framelines[1], film_formats[selected_format].framelines[2], film_formats[selected_format].framelines[3], BLACK);
+  display.drawRect(film_formats[selected_format].framelines[0], film_formats[selected_format].framelines[1], film_formats[selected_format].framelines[2], film_formats[selected_format].framelines[3], WHITE);
+
+  // Calculate the center of the rectangle
+  int rectCenterX = lenses[selected_lens].framelines[0] + lenses[selected_lens].framelines[2] / 2 - 10;
+  int rectCenterY = lenses[selected_lens].framelines[1] + lenses[selected_lens].framelines[3] / 2 - 10;
+
+  // Draw a circle at the center of the rectangle
+  display.fillCircle(rectCenterX, rectCenterY, 2, WHITE);
+  display.drawCircle(rectCenterX, rectCenterY, getFocusRadius(), WHITE);
 
   display.display();
 }
@@ -212,7 +216,7 @@ void drawCalibUI()
     u8g2.setCursor(3, 70);
     u8g2.print(F(" (L) to Select"));
     u8g2.setCursor(3, 81);
-    u8g2.print(F("(R) to Cancel"));
+    u8g2.print(F(" (R) to Cancel"));
   }
 
   display.display();

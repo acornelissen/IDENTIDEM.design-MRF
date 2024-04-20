@@ -6,7 +6,6 @@ void setDistance()
   { // Get data from Lidar
     if (distance != prev_distance)
     {
-      distance = calcMovingAvg(1, distance);
       prev_distance = distance;
 
       if (distance <= DISTANCE_MIN)
@@ -52,7 +51,7 @@ void setLensDistance()
         lens_distance_raw = lenses[selected_lens].distance[0] * 100;
         lens_distance_cm = cmToReadable(lens_distance_raw);
       }
-      else if (lens_sensor_reading < lenses[selected_lens].sensor_reading[sizeof(lenses[selected_lens].sensor_reading) / sizeof(lenses[selected_lens].sensor_reading[0]) - 1])
+      else if (lens_sensor_reading < lenses[selected_lens].sensor_reading[sizeof(lenses[selected_lens].sensor_reading) / sizeof(lenses[selected_lens].sensor_reading[0]) - 1] - 5)
       {
         lens_distance_raw = 9999999;
         lens_distance_cm = "Inf.";
@@ -69,7 +68,7 @@ void setLensDistance()
         lens_distance_cm = cmToReadable(lens_distance_raw);
       }
     }
-    Serial.println(lens_distance_raw);
+
   }
 }
 
@@ -184,11 +183,17 @@ void setLightMeter()
         }
       }
 
-      shutter_speed = print_speed;
-      if (speed >= 0.500)
+     
+      if (speed >= 1)
       {
-        shutter_speed = String(print_speed) + "s";
+        char print_speed_raw[10];
+        dtostrf(speed, 4, 2, print_speed_raw);
+        shutter_speed = strcat(print_speed_raw, " sec.");
       }
+      else {
+         shutter_speed = strcat(print_speed, " sec.");
+      }
+       
     }
   }
 }
