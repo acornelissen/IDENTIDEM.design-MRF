@@ -15,7 +15,7 @@ so no need to faff about with voltage dividers and guesstimate how much battery 
 
 It requires the following hardwaren (for now), in addition to the Feather:
 
-- TFLuna/TFMini/TFMini Plus "LiDAR" sensor -> for measuring distance to subject
+- TFMini Plus "LiDAR" sensor -> for measuring distance to subject
 - 128x128 OLED I2C display at 0x3D -> for viewfinder HUD display
 - 124x32 OLED I2C display at 0x3C -> external display for displaying frame counter and some other info
 - BH1750 Lux Sensor -> for the lightmeter
@@ -23,4 +23,5 @@ It requires the following hardwaren (for now), in addition to the Feather:
 - Adafruit Seesaw STEMMA I2C Rotary Encoder breakout (Product code 4991)
 - PEC11 Rotary Encoder (6mm D-shaft)
 - Two push buttons for navigation
+- A power button (I use a latched push-button type)
 
