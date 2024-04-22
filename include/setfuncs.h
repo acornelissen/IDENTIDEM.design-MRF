@@ -4,6 +4,7 @@ void setDistance()
 {
   if (tfluna.getData(distance))
   { // Get data from Lidar
+    distance = distance + LIDAR_OFFSET;
     if (distance != prev_distance)
     {
       prev_distance = distance;
@@ -75,7 +76,6 @@ void setLensDistance()
 void setFilmCounter()
 {
   int encoder_position = -encoder.getEncoderPosition();
-  Serial.println(encoder_position);
   if (encoder_position != prev_encoder_value && encoder_position > prev_encoder_value)
   {
     encoder_value = encoder_position;
@@ -95,23 +95,6 @@ void setFilmCounter()
       }
     }
 
-    // if (frame_progress == 0) {
-    //   // Set Neopixel color to blue
-    //   sspixel.setPixelColor(0, sspixel.Color(0, 0, 255));
-    // } else if (frame_progress == 1) {
-    //   // Set Neopixel color to red
-    //   sspixel.setPixelColor(0, sspixel.Color(255, 0, 0));
-    // } else if (frame_progress == 99) {
-    //   // Set Neopixel color to green
-    //   sspixel.setPixelColor(0, sspixel.Color(0, 255, 0));
-    // } else if (frame_progress > 0 && frame_progress < 99) {
-    //   // Calculate the transition color between red and green based on frame_progress
-    //   int red = 255 * (99 - frame_progress) / 98;
-    //   int green = 255 * frame_progress / 98;
-    //   // Set Neopixel color to the calculated color
-    //   sspixel.setPixelColor(0, sspixel.Color(red, green, 0));
-    // }
-    // sspixel.show();
     savePrefs();
   }
 }
