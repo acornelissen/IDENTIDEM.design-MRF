@@ -53,6 +53,7 @@ int film_counter = 0;
 int prev_encoder_value = 0;
 int encoder_value = 0;
 float frame_progress = 0;
+float prev_frame_progress = 0;
 
 unsigned long lastActivityTime = millis();
 bool lowPowerMode = false;

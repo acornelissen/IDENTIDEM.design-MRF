@@ -88,6 +88,7 @@ void checkButtons()
           prev_encoder_value = 0;
           film_counter = 0;
           frame_progress = 0;
+          prev_frame_progress = 0;
           savePrefs();
           ui_mode = "main";
           config_step = 0;

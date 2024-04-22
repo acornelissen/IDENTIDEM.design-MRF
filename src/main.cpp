@@ -92,12 +92,15 @@ void setup()
   maxlipo.begin();
   lightMeter.begin();
 
-  // // Seesaw NEOpixel
-  delay(10);
-  sspixel.setBrightness(70);
-  sspixel.show();
+  // Seesaw NEOpixel
+  if (sspixel.begin(SEESAW_ADDR)) {
+    delay(10);
+    sspixel.setBrightness(80);
+    sspixel.show();
+  }
 
-  // // Start the encoder
+
+  // Start the encoder
   if (encoder.begin(SEESAW_ADDR)) {
     delay(10);
     encoder.setEncoderPosition(-encoder_value);

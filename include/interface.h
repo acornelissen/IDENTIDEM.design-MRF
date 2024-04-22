@@ -35,15 +35,38 @@ void drawMainUI()
 
   //ReticlePosition reticlePosition = calculateReticlePosition(distance);
 
+  display.fillRect(
+    lenses[selected_lens].framelines[0], 
+    lenses[selected_lens].framelines[1], 
+    lenses[selected_lens].framelines[2],
+    lenses[selected_lens].framelines[3], 
+    WHITE
+  );
 
-  display.fillRect(lenses[selected_lens].framelines[0], lenses[selected_lens].framelines[1], lenses[selected_lens].framelines[2], lenses[selected_lens].framelines[3], WHITE);
-  display.fillRect(film_formats[selected_format].framelines[0], film_formats[selected_format].framelines[1], film_formats[selected_format].framelines[2], film_formats[selected_format].framelines[3], BLACK);
-  display.drawRect(film_formats[selected_format].framelines[0], film_formats[selected_format].framelines[1], film_formats[selected_format].framelines[2], film_formats[selected_format].framelines[3], WHITE);
+  int new_width = int(lenses[selected_lens].framelines[2] * film_formats[selected_format].frame_fill[1] / 100);
+  int new_height =  int(lenses[selected_lens].framelines[3] * film_formats[selected_format].frame_fill[0] / 100);
+  int width_offset = lenses[selected_lens].framelines[0] + (lenses[selected_lens].framelines[2] - new_width) / 2;
+  int heigh_offset = lenses[selected_lens].framelines[1] + (lenses[selected_lens].framelines[3] - new_height) / 2;
+  
+  display.fillRect(
+    width_offset,
+    heigh_offset,
+    new_width,
+    new_height, 
+    BLACK
+  );
+  display.drawRect(
+    width_offset,
+    heigh_offset,
+    new_width,
+    new_height,
+    WHITE
+  );
 
   // Calculate the center of the rectangle
-  int rectCenterX = lenses[selected_lens].framelines[0] + lenses[selected_lens].framelines[2] / 2 - 10;
-  int rectCenterY = lenses[selected_lens].framelines[1] + lenses[selected_lens].framelines[3] / 2 - 10;
-
+  int rectCenterX = lenses[selected_lens].framelines[0] + lenses[selected_lens].framelines[2] / 2;
+  int rectCenterY = lenses[selected_lens].framelines[1] + lenses[selected_lens].framelines[3] / 2 - 5;
+ 
   // Draw a circle at the center of the rectangle
   display.fillCircle(rectCenterX, rectCenterY, 2, WHITE);
   display.drawCircle(rectCenterX, rectCenterY, getFocusRadius(), WHITE);
@@ -275,9 +298,21 @@ void drawExternalUI()
 
     display_ext.drawRect(progressBarX, progressBarY, progessBarWidth, progressBarHeight, WHITE);
     display_ext.fillRect(progressBarX, progressBarY, progressWidth, progressBarHeight, WHITE);
+
+    if (frame_progress != prev_frame_progress) {
+      if (progressPercentage > 0 && progressPercentage < 100) {
+        // Transition from red to green
+        int greenValue = frame_progress * 255;
+        int redValue = (1 - frame_progress) * 255;
+        // Set the LED color using greenValue and redValue
+        sspixel.setPixelColor(0, sspixel.Color(redValue, greenValue, 0));
+      }
+      prev_frame_progress = frame_progress;
+    }
   }
   else
   {
+    sspixel.setPixelColor(0, sspixel.Color(0, 0, 255));
     u8g2_ext.setCursor(60, 30);
   }
 
@@ -288,17 +323,22 @@ void drawExternalUI()
   {
     u8g2_ext.setCursor(8, 30);
     u8g2_ext.print(F(" Load film."));
+
+    sspixel.setPixelColor(0, sspixel.Color(238, 130, 238));
   }
   else if (film_counter == 99)
   {
     u8g2_ext.setCursor(8, 30);
     u8g2_ext.print(F(" Roll end."));
+
+    sspixel.setPixelColor(0, sspixel.Color(238, 130, 238));
   }
   else
   {
     u8g2_ext.print(film_counter);
   }
 
+  sspixel.show();
   display_ext.display();
 }
 // ---------------------
