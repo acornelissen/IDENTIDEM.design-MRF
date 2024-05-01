@@ -31,7 +31,7 @@ void setDistance()
 // https://github.com/makeabilitylab/arduino/blob/master/Filters/MovingAverageFilter/MovingAverageFilter.ino
 int getLensSensorReading()
 {
-  int sensorVal = analogRead(A1);
+  int sensorVal = ads1015.readADC_SingleEnded(1);
   return calcMovingAvg(0, sensorVal) / 10;
 }
 

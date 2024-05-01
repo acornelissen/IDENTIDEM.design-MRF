@@ -10,6 +10,7 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_SH110X.h>
 #include <Adafruit_MAX1704X.h>
+#include <Adafruit_ADS1X15.h>
 #include <TFMPlus.h>
 #include <BH1750.h>
 #include <U8g2_for_Adafruit_GFX.h>
@@ -44,11 +45,12 @@ void setup()
   loadPrefs();
 
   // Initialise inputs
-  pinMode(A1, INPUT);
-  lbutton.attach(10, INPUT_PULLUP);
+  ads1015.begin();
+  ads1015.setGain(GAIN_ONE); 
+  lbutton.attach(9, INPUT_PULLUP);
   lbutton.interval(5);
   lbutton.setPressedState(LOW);
-  rbutton.attach(9, INPUT_PULLUP);
+  rbutton.attach(10, INPUT_PULLUP);
   rbutton.interval(5);
   rbutton.setPressedState(LOW);
 

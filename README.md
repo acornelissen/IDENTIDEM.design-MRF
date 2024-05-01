@@ -16,12 +16,13 @@ so no need to faff about with voltage dividers and guesstimate how much battery 
 It requires the following hardwaren (for now), in addition to the Feather:
 
 - TFMini Plus "LiDAR" sensor -> for measuring distance to subject
-- 128x128 OLED I2C display at 0x3D -> for viewfinder HUD display
-- 124x32 OLED I2C display at 0x3C -> external display for displaying frame counter and some other info
-- BH1750 Lux Sensor -> for the lightmeter
-- Sakae / Caldaro S8FLP-10A-10K linear position sensor -> this couples to the Mamiya Press Lens rangefinder mechanism to measure lens position
-- Adafruit Seesaw STEMMA I2C Rotary Encoder breakout (Product code 4991)
-- PEC11 Rotary Encoder (6mm D-shaft)
-- Two push buttons for navigation
-- A power button (I use a latched push-button type)
+- Adafruit Monochrome 1.12" 128x128 OLED - STEMMA I2C at 0x3D (Product ID: 5297) -> for viewfinder HUD display
+- 124x32 OLED I2C display at 0x3C (I use these https://www.amazon.co.uk/gp/product/B079H2C7WH/) -> external display for displaying frame counter and some other info
+- Adafruit BH1750 Light Sensor (Product ID: 4681) -> for the lightmeter
+- Sakae / Caldaro S8FLP-10A-10K linear position sensor -> this couples to the Mamiya Press Lens rangefinder mechanism to measure lens position (https://store.technimeasure.co.uk/product/s8flp-10a-10k-%c2%b11/)
+- Adafruit ADS1115 16-Bit ADC - STEMMA I2C (Product ID: 1085) -> Give us the precision and stability we need for reading the lens position from the linear position sensor
+- Adafruit Seesaw Rotary Encoder breakout - STEMMA I2C  (Product ID: 4991)
+- PEC11-4215F-S24 Rotary Encoder (6mm D-shaft)
+- Two push buttons for navigation (https://www.amazon.co.uk/gp/product/B07S1MNB8C)
+- A power button (I use a latched push-button type: https://www.amazon.co.uk/gp/product/B0BZJBNLCF)
 
