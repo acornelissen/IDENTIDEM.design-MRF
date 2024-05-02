@@ -76,13 +76,6 @@ void drawMainUI()
   float x = a.acceleration.x;
   float y = a.acceleration.y;
   float z = a.acceleration.z;
-  
-  Serial.print("X: ");
-  Serial.print(x);
-  Serial.print(" Y: ");
-  Serial.print(y);
-  Serial.print(" Z: ");
-  Serial.println(z);
 
   // Convert accelerometer readings into angles
   float yaw_scale = 15;

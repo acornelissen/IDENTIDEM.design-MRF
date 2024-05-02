@@ -36,6 +36,7 @@ void checkButtons()
             lenses[calib_lens].sensor_reading[i] = calib_distance_set[i];
           }
           savePrefs();
+          selected_lens = calib_lens;
           ui_mode = "config";
         }
       }
@@ -72,6 +73,9 @@ void checkButtons()
         else if (config_step == 2)
         {
           cycleLenses();
+          int non_zero_aperture_index = getFirstNonZeroAperture();
+          aperture = lenses[selected_lens].apertures[non_zero_aperture_index];
+          aperture_index = non_zero_aperture_index;
         }
         else if (config_step == 3)
         {

@@ -23,7 +23,7 @@ void setDistance()
     }
   }
   else {
-    distance_cm = "> " + String(DISTANCE_MAX) + "cm";
+    distance_cm = "-0-";
   }
 }
 
