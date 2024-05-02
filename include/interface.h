@@ -68,8 +68,66 @@ void drawMainUI()
   int rectCenterY = lenses[selected_lens].framelines[1] + lenses[selected_lens].framelines[3] / 2 - 5;
  
   // Draw a circle at the center of the rectangle
-  display.fillCircle(rectCenterX, rectCenterY, 2, WHITE);
+  display.fillCircle(rectCenterX, rectCenterY, 4, WHITE);
   display.drawCircle(rectCenterX, rectCenterY, getFocusRadius(), WHITE);
+
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+  float x = a.acceleration.x;
+  float y = a.acceleration.y;
+  float z = a.acceleration.z;
+  
+  Serial.print("X: ");
+  Serial.print(x);
+  Serial.print(" Y: ");
+  Serial.print(y);
+  Serial.print(" Z: ");
+  Serial.println(z);
+
+  // Convert accelerometer readings into angles
+  float yaw_scale = 15;
+  float pitch_scale = 0.5;
+  float yaw = atan2(x, sqrt(x*x + z*z));
+  float pitch = atan2(y, sqrt(x*x + z*z));
+
+  // Define the deadzone
+  float deadzone = 0.03;
+
+  // Apply the deadzone to the yaw and pitch
+  if (abs(yaw) < deadzone) {
+    yaw = 0;
+  }
+  if (abs(pitch) < deadzone) {
+    pitch = 0;
+  }
+
+  yaw = yaw * yaw_scale;
+  pitch = pitch * pitch_scale;
+
+  // Define the length of the line
+  float length = SCREEN_WIDTH - 10;
+
+  // Calculate the start and end points of the line
+  float startX = rectCenterX - length/2 * cos(pitch);
+  float startY =  rectCenterY - length/2 * sin(pitch) + yaw;
+  float endX = rectCenterX + length/2 * cos(pitch);
+  float endY =  rectCenterY + length/2 * sin(pitch) + yaw;
+
+  // Draw the line on the display
+  display.drawLine(startX, startY - 1, endX, endY - 1, WHITE);  
+  display.drawLine(startX, startY, endX, endY, WHITE);  
+  display.drawLine(startX, startY + 1, endX, endY + 1, WHITE);  
+
+  // Define the length of the vertical line
+  int vertLineLength = 30;
+
+  // Calculate the start and end points of the vertical line
+  int vertLineStartY = rectCenterY - vertLineLength / 2;
+  int vertLineEndY = rectCenterY + vertLineLength / 2;
+
+  // Draw the vertical line on the display
+  display.drawLine(rectCenterX, vertLineStartY, rectCenterX, vertLineEndY, WHITE);
+
 
   display.display();
 }
@@ -341,4 +399,5 @@ void drawExternalUI()
   sspixel.show();
   display_ext.display();
 }
+
 // ---------------------

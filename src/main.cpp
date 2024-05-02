@@ -11,6 +11,8 @@
 #include <Adafruit_SH110X.h>
 #include <Adafruit_MAX1704X.h>
 #include <Adafruit_ADS1X15.h>
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
 #include <TFMPlus.h>
 #include <BH1750.h>
 #include <U8g2_for_Adafruit_GFX.h>
@@ -18,6 +20,7 @@
 #include <Adafruit_seesaw.h>
 #include <seesaw_neopixel.h>
 #include <Preferences.h>
+#include <math.h>
 
 //Constants and variables
 #include <mrfconstants.h>
@@ -46,6 +49,7 @@ void setup()
 
   // Initialise inputs
   ads1015.begin();
+  mpu.begin();
   ads1015.setGain(GAIN_ONE); 
   lbutton.attach(9, INPUT_PULLUP);
   lbutton.interval(5);

@@ -3,6 +3,7 @@
 // Inputs
 Adafruit_seesaw encoder;
 Adafruit_ADS1115 ads1015;
+Adafruit_MPU6050 mpu;
 
 seesaw_NeoPixel sspixel = seesaw_NeoPixel(1, SS_NEOPIX, NEO_GRB + NEO_KHZ800);
 Bounce2::Button lbutton = Bounce2::Button();

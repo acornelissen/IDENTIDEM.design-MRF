@@ -91,7 +91,7 @@ int calcMovingAvg(int index, int sensorVal)
 
 int_fast16_t getFocusRadius()
 {
-  int minRadius = 2;
+  int minRadius = 4;
   int maxRadius = 30;
 
   int radius = min(maxRadius, max(minRadius, abs(distance - lens_distance_raw)));
