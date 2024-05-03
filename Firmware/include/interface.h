@@ -78,33 +78,33 @@ void drawMainUI()
   float z = a.acceleration.z;
 
   // Convert accelerometer readings into angles
-  float yaw_scale = 15;
-  float pitch_scale = 0.5;
-  float yaw = atan2(x, sqrt(x*x + z*z));
-  float pitch = atan2(y, sqrt(x*x + z*z));
+  float pitch_scale = 15;
+  float roll_scale = 0.5;
+  float pitch = atan2(x, sqrt(x*x + z*z));
+  float roll = atan2(y, sqrt(x*x + z*z));
 
   // Define the deadzone
   float deadzone = 0.03;
 
-  // Apply the deadzone to the yaw and pitch
-  if (abs(yaw) < deadzone) {
-    yaw = 0;
-  }
+  // Apply the deadzone to the pitch and roll
   if (abs(pitch) < deadzone) {
     pitch = 0;
   }
+  if (abs(roll) < deadzone) {
+    roll = 0;
+  }
 
-  yaw = yaw * yaw_scale;
   pitch = pitch * pitch_scale;
+  roll = roll * roll_scale;
 
   // Define the length of the line
   float length = SCREEN_WIDTH - 10;
 
   // Calculate the start and end points of the line
-  float startX = rectCenterX - length/2 * cos(pitch);
-  float startY =  rectCenterY - length/2 * sin(pitch) + yaw;
-  float endX = rectCenterX + length/2 * cos(pitch);
-  float endY =  rectCenterY + length/2 * sin(pitch) + yaw;
+  float startX = rectCenterX - length/2 * cos(roll);
+  float startY =  rectCenterY - length/2 * sin(roll) + pitch;
+  float endX = rectCenterX + length/2 * cos(roll);
+  float endY =  rectCenterY + length/2 * sin(roll) + pitch;
 
   // Draw the line on the display
   display.drawLine(startX, startY - 1, endX, endY - 1, WHITE);  
@@ -120,7 +120,6 @@ void drawMainUI()
 
   // Draw the vertical line on the display
   display.drawLine(rectCenterX, vertLineStartY, rectCenterX, vertLineEndY, WHITE);
-
 
   display.display();
 }
