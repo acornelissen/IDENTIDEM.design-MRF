@@ -100,3 +100,6 @@ The detailed build guide should drop soon(ish). For now though, everything you n
 - 15 x M2x4 screws
 - 2 x 20 x 5 x 2mm magnets for the body (and 2 for each film mask you print)
 - 1 x 1.5mm stainless steel or brass rod, cut to 82mm (for the film door)
+
+---
+🍺 <strong><a href="https://paypal.me/albertcor">Buy me a beer</a></strong> if you'd like to say thank you.
