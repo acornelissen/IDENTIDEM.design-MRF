@@ -25,9 +25,8 @@ const int SMOOTHING_WINDOW_SIZE = 10;
 #define CLOSE_FOCUS 100
 #define LIDAR_OFFSET 10
 
-#define DISTANCE_MIN 5
-#define DISTANCE_MAX 1195
-#define DISTANCE_MAX_M 12
+#define DISTANCE_MIN 15
+#define DISTANCE_MAX 12
 
 const int ISOS[] = {50, 80, 100, 125, 200, 400, 500, 640, 800, 1600, 3200, 6400};
 const float CALIB_DISTANCES[] = {1, 1.2, 1.5, 2, 3, 5, 10};

@@ -4,21 +4,17 @@ void setDistance()
 {
   if (tfluna.getData(distance))
   { // Get data from Lidar
+    Serial.println(distance);
     distance = distance + LIDAR_OFFSET;
     if (distance != prev_distance)
     {
-      if (distance <= 0)
+      if (distance <= LIDAR_OFFSET)
       {
-        String distance_string = cmToReadable(prev_distance);
-        distance_cm = "0 (last: " + distance_string + " cm)";
+         distance_cm = "> " + String(DISTANCE_MAX) + "m";
       }
       else if (distance < DISTANCE_MIN)
       {
         distance_cm = "< " + String(DISTANCE_MIN) + "cm";
-      }
-      else if (distance > DISTANCE_MAX)
-      {
-         distance_cm = "> " + String(DISTANCE_MAX_M) + "m";
       }
       else {
         distance_cm = cmToReadable(distance);
@@ -27,8 +23,7 @@ void setDistance()
     }
   }
   else {
-    String distance_string = cmToReadable(prev_distance);
-    distance_cm = "0 (last: " + String(distance_string) + " cm)";
+    distance_cm = "...";
   }
 }
 
