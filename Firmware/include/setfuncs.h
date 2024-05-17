@@ -7,23 +7,28 @@ void setDistance()
     distance = distance + LIDAR_OFFSET;
     if (distance != prev_distance)
     {
-      prev_distance = distance;
-
-      if (distance <= DISTANCE_MIN)
+      if (distance <= 0)
+      {
+        String distance_string = cmToReadable(prev_distance);
+        distance_cm = "0 (last: " + distance_string + " cm)";
+      }
+      else if (distance < DISTANCE_MIN)
       {
         distance_cm = "< " + String(DISTANCE_MIN) + "cm";
       }
-      else if (distance >= DISTANCE_MAX)
+      else if (distance > DISTANCE_MAX)
       {
-         distance_cm = "> " + String(DISTANCE_MAX) + "cm";
+         distance_cm = "> " + String(DISTANCE_MAX_M) + "m";
       }
       else {
         distance_cm = cmToReadable(distance);
       }
+      prev_distance = distance;
     }
   }
   else {
-    distance_cm = "-0-";
+    String distance_string = cmToReadable(prev_distance);
+    distance_cm = "0 (last: " + String(distance_string) + " cm)";
   }
 }
 
