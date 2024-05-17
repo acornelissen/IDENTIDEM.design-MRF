@@ -1,4 +1,4 @@
-# IDENTIDEM.design M(edium Format) (R)ange(F)inder Firmware
+# IDENTIDEM.design M(edium Format) (R)ange(F)inder
 
 **Before anything else, a big thank you to Oscar from Panomicron for making the CAD files for his [Thulium 6x9](https://www.panomicron.com/thulium) available for download. This camera is a heavily modified version of the Thulium, and wouldn't exist if it wasn't for Oscar's excellent work.**
 
