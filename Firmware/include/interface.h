@@ -401,13 +401,16 @@ void drawSleepUI()
   u8g2_ext.setFontDirection(0);
   u8g2_ext.setForegroundColor(WHITE);
   u8g2_ext.setBackgroundColor(BLACK);
-  u8g2_ext.setFont(u8g2_font_6x10_mf);
+  u8g2_ext.setFont(u8g2_font_10x20_mf);
 
-  u8g2_ext.setCursor(2, 8);
-  u8g2_ext.print(F("Zzzzzz..."));
+  u8g2_ext.setCursor(8, 30);
+  u8g2_ext.print(F("ZzzZZzZz..."));
 
   display.display();
   display_ext.display();
+
+  sspixel.setPixelColor(0, sspixel.Color(0, 0, 0));
+  sspixel.show();
 }
 
 // ---------------------
