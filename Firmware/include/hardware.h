@@ -16,7 +16,7 @@ Adafruit_MAX17048 maxlipo;
 BH1750 lightMeter;
 
 // LiDAR setup
-TFMPlus tfluna;
+TFMPlus tfminiplus;
 HardwareSerial lidarSerial(2); // Using serial port 2
 
 // Display setup

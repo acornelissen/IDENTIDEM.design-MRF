@@ -85,7 +85,7 @@ void setup()
   // Start the LiDAR sensor
   lidarSerial.begin(115200, SERIAL_8N1, RXD2, TXD2);
   delay(20);
-  tfluna.begin(&lidarSerial);
+  tfminiplus.begin(&lidarSerial);
 
   // Clear the moving average arrays
   for (int i = 0; i < SMOOTHING_WINDOW_SIZE; i++)
@@ -116,26 +116,41 @@ void setup()
 
 void loop()
 {
+
+  if (millis() - lastActivityTime > 30000) { // Step 3
+    sleepMode = true;
+  }
+
   checkButtons();
 
-  if (ui_mode == "main")
+  if (sleepMode == true)
   {
-    setDistance();
-    setLensDistance();
-    setVoltage();
-    setLightMeter();
-    drawMainUI();
-    setFilmCounter();
+    drawSleepUI();
+    toggleLidar();
+    return;
   }
-  else if (ui_mode == "config")
-  {
-    drawConfigUI();
-  }
-  else if (ui_mode == "calib")
-  {
-    drawCalibUI();
-  }
+  else {
+    if (ui_mode == "main")
+      {
+        toggleLidar();
+        
+        setDistance();
+        setLensDistance();
+        setVoltage();
+        setLightMeter();
+        drawMainUI();
+        setFilmCounter();
+      }
+      else if (ui_mode == "config")
+      {
+        drawConfigUI();
+      }
+      else if (ui_mode == "calib")
+      {
+        drawCalibUI();
+      }
 
-  drawExternalUI();
+      drawExternalUI();
+  }
 }
 // ---------------------

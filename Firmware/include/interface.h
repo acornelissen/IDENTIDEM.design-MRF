@@ -392,4 +392,22 @@ void drawExternalUI()
   display_ext.display();
 }
 
+void drawSleepUI()
+{
+  display.clearDisplay();
+  display_ext.clearDisplay();
+
+  u8g2_ext.setFontMode(1);
+  u8g2_ext.setFontDirection(0);
+  u8g2_ext.setForegroundColor(WHITE);
+  u8g2_ext.setBackgroundColor(BLACK);
+  u8g2_ext.setFont(u8g2_font_6x10_mf);
+
+  u8g2_ext.setCursor(2, 8);
+  u8g2_ext.print(F("Zzzzzz..."));
+
+  display.display();
+  display_ext.display();
+}
+
 // ---------------------

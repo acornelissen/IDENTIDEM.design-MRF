@@ -56,5 +56,5 @@ float frame_progress = 0;
 float prev_frame_progress = 0;
 
 unsigned long lastActivityTime = millis();
-bool lowPowerMode = false;
+bool sleepMode = false;
 // ---------------------
