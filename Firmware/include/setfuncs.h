@@ -2,7 +2,7 @@
 // ---------------------
 void setDistance()
 {
-  if (tfluna.getData(distance))
+  if (tfminiplus.getData(distance))
   { // Get data from Lidar
     Serial.println(distance);
     distance = distance + LIDAR_OFFSET;
@@ -42,7 +42,12 @@ void setLensDistance()
 
   if (lens_sensor_reading != prev_lens_sensor_reading)
   {
-    lastActivityTime = millis();
+
+    if (abs(lens_sensor_reading - prev_lens_sensor_reading) > 3)
+    {
+      lastActivityTime = millis();
+    }
+
     prev_lens_sensor_reading = lens_sensor_reading;
 
     for (int i = 0; i < sizeof(lenses[selected_lens].sensor_reading) / sizeof(lenses[selected_lens].sensor_reading[0]); i++)
@@ -90,11 +95,23 @@ void setFilmCounter()
       }
       else if (film_formats[selected_format].sensor[i] < encoder_value && encoder_value < film_formats[selected_format].sensor[i + 1])
       {
-        film_counter = film_formats[selected_format].frame[i];
-        frame_progress = static_cast<float>(encoder_value - film_formats[selected_format].sensor[i]) / (film_formats[selected_format].sensor[i + 1] - film_formats[selected_format].sensor[i]);
+        // Check if the encoder value is within +/- 2 of the next frame
+        if (abs(encoder_value - film_formats[selected_format].sensor[i + 1]) <= 1)
+        {
+          // Snap to the next frame
+          film_counter = film_formats[selected_format].frame[i + 1];
+          frame_progress = 0;
+        }
+        else
+        {
+          film_counter = film_formats[selected_format].frame[i];
+          frame_progress = static_cast<float>(encoder_value - film_formats[selected_format].sensor[i]) / (film_formats[selected_format].sensor[i + 1] - film_formats[selected_format].sensor[i]);
+        }
+        
       }
     }
 
+    lastActivityTime = millis();
     savePrefs();
   }
 }
@@ -178,6 +195,18 @@ void setLightMeter()
       }
        
     }
+  }
+}
+
+void toggleLidar()
+{
+  if (sleepMode == true)
+  {
+    tfminiplus.sendCommand(DISABLE_OUTPUT, 0);
+  }
+  else
+  {
+    tfminiplus.sendCommand(ENABLE_OUTPUT, 0);
   }
 }
 // ---------------------

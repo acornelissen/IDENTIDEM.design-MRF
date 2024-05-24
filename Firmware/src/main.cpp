@@ -74,7 +74,8 @@ void setup()
   display_ext.setTextSize(2); // Draw 2X-scale text
   display_ext.setTextColor(SSD1306_WHITE);
   display_ext.setCursor(20, 10);
-  display_ext.println(F("MRF v3.0"));
+  display_ext.print(F("MRF "));
+  display_ext.println(FWVERSION);
   display_ext.display();
 
   delay(1500);
@@ -85,7 +86,7 @@ void setup()
   // Start the LiDAR sensor
   lidarSerial.begin(115200, SERIAL_8N1, RXD2, TXD2);
   delay(20);
-  tfluna.begin(&lidarSerial);
+  tfminiplus.begin(&lidarSerial);
 
   // Clear the moving average arrays
   for (int i = 0; i < SMOOTHING_WINDOW_SIZE; i++)
@@ -116,26 +117,37 @@ void setup()
 
 void loop()
 {
+  if (millis() - lastActivityTime > SLEEPTIMEOUT) { // Step 3
+    sleepMode = true;
+  }
+
   checkButtons();
 
-  if (ui_mode == "main")
+  if (sleepMode == true)
   {
-    setDistance();
-    setLensDistance();
-    setVoltage();
-    setLightMeter();
-    drawMainUI();
-    setFilmCounter();
+    toggleLidar();
+    drawSleepUI();
   }
-  else if (ui_mode == "config")
-  {
-    drawConfigUI();
+  else { 
+    toggleLidar();
+    if (ui_mode == "main")
+      { 
+        setDistance();
+        setLensDistance();
+        setVoltage();
+        setLightMeter();
+        drawMainUI();
+      }
+      else if (ui_mode == "config")
+      {
+        drawConfigUI();
+      }
+      else if (ui_mode == "calib")
+      {
+        drawCalibUI();
+      }
+      setFilmCounter();
+      drawExternalUI();
   }
-  else if (ui_mode == "calib")
-  {
-    drawCalibUI();
-  }
-
-  drawExternalUI();
 }
 // ---------------------

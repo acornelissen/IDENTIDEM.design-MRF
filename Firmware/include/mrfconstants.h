@@ -1,4 +1,7 @@
 // Constants
+#define FWVERSION "3.5"
+#define SLEEPTIMEOUT 60000
+
 #define RXD2 RX
 #define TXD2 TX
 
