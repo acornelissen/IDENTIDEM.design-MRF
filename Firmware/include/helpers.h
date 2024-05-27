@@ -22,23 +22,26 @@ float getFirstNonZeroAperture()
 void loadPrefs()
 {
   prefs.begin("mrf", false);
-  iso = prefs.getInt("iso", 400);
-  iso_index = prefs.getInt("iso_index", 5);
 
-  byte tempLenses[sizeof(lenses)];
-  prefs.getBytes("lenses", tempLenses, sizeof(lenses));
-  memcpy(lenses, tempLenses, sizeof(lenses));
+  if (prefs.isKey("iso")) {
+    iso = prefs.getInt("iso", 400);
+    iso_index = prefs.getInt("iso_index", 5);
 
-  selected_format = prefs.getInt("selected_format", 3);
-  selected_lens = prefs.getInt("selected_lens", 1);
+    byte tempLenses[sizeof(lenses)];
+    prefs.getBytes("lenses", tempLenses, sizeof(lenses));
+    memcpy(lenses, tempLenses, sizeof(lenses));
 
-  int non_zero_aperture_index = getFirstNonZeroAperture();
+    selected_format = prefs.getInt("selected_format", 3);
+    selected_lens = prefs.getInt("selected_lens", 1);
 
-  aperture = prefs.getFloat("aperture", lenses[selected_lens].apertures[non_zero_aperture_index]);
-  aperture_index = prefs.getInt("aperture_index", non_zero_aperture_index);
+    int non_zero_aperture_index = getFirstNonZeroAperture();
 
-  film_counter = prefs.getInt("film_counter", 0);
-  encoder_value = prefs.getInt("encoder_value", 0);
+    aperture = prefs.getFloat("aperture", lenses[selected_lens].apertures[non_zero_aperture_index]);
+    aperture_index = prefs.getInt("aperture_index", non_zero_aperture_index);
+
+    film_counter = prefs.getInt("film_counter", 0);
+    encoder_value = prefs.getInt("encoder_value", 0);
+  }
 
   prefs.end();
 }
