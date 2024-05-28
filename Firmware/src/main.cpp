@@ -113,17 +113,26 @@ void setup()
     encoder.setEncoderPosition(-encoder_value);
     encoder.enableEncoderInterrupt();
   }
+
+  esp_sleep_enable_ext0_wakeup(GPIO_NUM_9,0);
 }
 
 void loop()
 {
+  
   if (millis() - lastActivityTime > SLEEPTIMEOUT) { // Step 3
     sleepMode = true;
   }
 
   checkButtons();
 
-  if (sleepMode == true)
+  if (deepSleep == true)
+  {
+    toggleLidar();
+    disableInternalPower();
+    esp_deep_sleep_start();
+  }
+  else if (sleepMode == true)
   {
     toggleLidar();
     drawSleepUI();
