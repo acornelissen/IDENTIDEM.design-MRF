@@ -22,6 +22,10 @@
 #include <Preferences.h>
 #include <math.h>
 
+#include "driver/rtc_io.h"
+#include "esp_wifi.h"
+#include "esp_bt.h"
+
 //Constants and variables
 #include <mrfconstants.h>
 #include <lenses.h>
@@ -45,6 +49,9 @@ void setup()
 
   Serial.begin(115200); // Initializing serial port
 
+  esp_wifi_stop(); // Stop WiFi to save power
+  esp_bt_controller_disable(); // Stop Bluetooth to save power
+
   loadPrefs();
 
   // Initialise inputs
@@ -66,19 +73,12 @@ void setup()
   display.clearDisplay();
   display.display();
 
-  delay(1000); // Slight delay or the displays won't work
-  display_ext.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS_EXT);
+  delay(500); // Slight delay or the displays won't work
 
-  // Boot up screen
+  display_ext.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS_EXT);
   display_ext.clearDisplay();
-  display_ext.setTextSize(2); // Draw 2X-scale text
-  display_ext.setTextColor(SSD1306_WHITE);
-  display_ext.setCursor(20, 10);
-  display_ext.print(F("MRF "));
-  display_ext.println(FWVERSION);
   display_ext.display();
 
-  delay(1500);
   u8g2_ext.begin(display_ext);
   display_ext.clearDisplay();
   display_ext.display();
@@ -113,23 +113,35 @@ void setup()
     encoder.setEncoderPosition(-encoder_value);
     encoder.enableEncoderInterrupt();
   }
+
+  esp_sleep_enable_ext0_wakeup(GPIO_NUM_10,0);
+  rtc_gpio_pullup_en(GPIO_NUM_10);
+  rtc_gpio_pulldown_dis(GPIO_NUM_10);
 }
 
 void loop()
 {
+  
   if (millis() - lastActivityTime > SLEEPTIMEOUT) { // Step 3
     sleepMode = true;
   }
 
   checkButtons();
 
-  if (sleepMode == true)
+  if (deepSleep == true)
   {
     toggleLidar();
-    drawSleepUI();
+    disableInternalPower();
+    esp_deep_sleep_start();
+  }
+  else if (sleepMode == true)
+  {
+    toggleLidar();
+    drawSleepUI(1);
   }
   else { 
     toggleLidar();
+    
     if (ui_mode == "main")
       { 
         setDistance();

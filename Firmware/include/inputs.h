@@ -3,45 +3,69 @@
 void checkButtons()
 {
   lbutton.update();
-  if (lbutton.pressed())
-  {
-    lastActivityTime = millis();
-    if (sleepMode == true) {
-      sleepMode = false;
+
+  if (deepSleep == true) {
+    if (rbutton.isPressed()) { 
+      longPress += rbutton.currentDuration();
+
+      if (longPress >= 5000) {
+        enableInternalPower();
+        rtc_gpio_deinit(GPIO_NUM_10);
+        deepSleep = false;
+      }
     }
-    else {
-      if (ui_mode == "main")
-      {
-        cycleApertures("down");
+    else if (rbutton.rose() && rbutton.previousDuration() < 5000)
+    {
+      longPress = 0;
+    }
+  }
+  else {
+    if (lbutton.isPressed() && lbutton.currentDuration() >= 5000) {
+      drawSleepUI(0);
+      delay(1000);
+      deepSleep = true;
+    }
+    else if (lbutton.rose() && lbutton.previousDuration() < 1000)
+    {
+
+      lastActivityTime = millis();
+      if (sleepMode == true) {
+        sleepMode = false;
       }
-      else if (ui_mode == "config")
-      {
-        config_step++;
-        if (config_step > 5)
+      else {
+        if (ui_mode == "main")
         {
-          config_step = 0;
+          cycleApertures("down");
         }
-      }
-      else if (ui_mode == "calib")
-      {
-        if (calib_step == 0)
+        else if (ui_mode == "config")
         {
-          cycleCalibLenses();
-        }
-        if (calib_step == 1)
-        {
-          calib_distance_set[current_calib_distance] = getLensSensorReading();
-          current_calib_distance++;
-          if (current_calib_distance >= sizeof(CALIB_DISTANCES) / sizeof(CALIB_DISTANCES[0]))
+          config_step++;
+          if (config_step > 5)
           {
-            lenses[calib_lens].calibrated = true;
-            for (int i = 0; i < sizeof(calib_distance_set) / sizeof(calib_distance_set[0]); i++)
+            config_step = 0;
+          }
+        }
+        else if (ui_mode == "calib")
+        {
+          if (calib_step == 0)
+          {
+            cycleCalibLenses();
+          }
+          if (calib_step == 1)
+          {
+            calib_distance_set[current_calib_distance] = getLensSensorReading();
+            current_calib_distance++;
+            if (current_calib_distance >= sizeof(CALIB_DISTANCES) / sizeof(CALIB_DISTANCES[0]))
             {
-              lenses[calib_lens].sensor_reading[i] = calib_distance_set[i];
+              lenses[calib_lens].calibrated = true;
+              for (int i = 0; i < sizeof(calib_distance_set) / sizeof(calib_distance_set[0]); i++)
+              {
+                lenses[calib_lens].sensor_reading[i] = calib_distance_set[i];
+              }
+              savePrefs();
+              selected_lens = calib_lens;
+              ui_mode = "config";
             }
-            savePrefs();
-            selected_lens = calib_lens;
-            ui_mode = "config";
           }
         }
       }
@@ -49,22 +73,20 @@ void checkButtons()
   }
 
   rbutton.update();
-  if (rbutton.rose())
+  if (rbutton.isPressed() && rbutton.currentDuration() >= 5000) 
+  {
+    if (ui_mode == "main")
+    {
+      ui_mode = "config";
+    }
+  }
+  else if (rbutton.rose() && rbutton.previousDuration() < 1000)
   {
     lastActivityTime = millis();
     if (sleepMode == true) {
       sleepMode = false;
     }
     else {
-    if (rbutton.previousDuration() > 5000)
-    {
-      if (ui_mode == "main")
-      {
-        ui_mode = "config";
-      }
-    }
-    else
-    {
         if (ui_mode == "main")
         {
           cycleApertures("up");
@@ -124,7 +146,7 @@ void checkButtons()
             ui_mode = "config";
           }
         }
-      }
+      
     }
   }
 }

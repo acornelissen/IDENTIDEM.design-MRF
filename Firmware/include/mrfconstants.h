@@ -1,5 +1,5 @@
 // Constants
-#define FWVERSION "3.5"
+#define FWVERSION "4.0"
 #define SLEEPTIMEOUT 60000
 
 #define RXD2 RX

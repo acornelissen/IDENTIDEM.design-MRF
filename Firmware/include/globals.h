@@ -57,4 +57,7 @@ float prev_frame_progress = 0;
 
 unsigned long lastActivityTime = millis();
 bool sleepMode = false;
+RTC_DATA_ATTR  bool deepSleep = false;
+RTC_DATA_ATTR  bool wokeUp = false;
+RTC_DATA_ATTR int longPress = 0;
 // ---------------------

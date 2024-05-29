@@ -131,4 +131,20 @@ ReticlePosition calculateReticlePosition(float distance)
 
   return reticlePosition;
 }
+
+void enableInternalPower() {
+  pinMode(PIN_I2C_POWER, INPUT);
+  delay(1);
+  bool polarity = digitalRead(PIN_I2C_POWER);
+  pinMode(PIN_I2C_POWER, OUTPUT);
+  digitalWrite(PIN_I2C_POWER, !polarity);
+  pinMode(NEOPIXEL_POWER, OUTPUT);
+  digitalWrite(NEOPIXEL_POWER, HIGH);
+}
+
+void disableInternalPower() {
+  // turn on the I2C power by setting pin to rest state (off)
+  pinMode(PIN_I2C_POWER, INPUT);
+}
+
 // ---------------------
