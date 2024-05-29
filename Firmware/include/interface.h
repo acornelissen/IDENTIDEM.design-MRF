@@ -223,6 +223,12 @@ void drawConfigUI()
   u8g2.setCursor(3, 81);
   u8g2.print(F(" Exit >> "));
 
+  u8g2.setCursor(3, 100);
+  u8g2.setBackgroundColor(BLACK);
+  u8g2.setForegroundColor(WHITE);
+  u8g2.print(F(" IDENTIDEM.design MRF "));
+  u8g2.print(FWVERSION);
+
   display.display();
 }
 
@@ -392,7 +398,7 @@ void drawExternalUI()
   display_ext.display();
 }
 
-void drawSleepUI()
+void drawSleepUI(int type)
 {
   display.clearDisplay();
   display_ext.clearDisplay();
@@ -403,8 +409,14 @@ void drawSleepUI()
   u8g2_ext.setBackgroundColor(BLACK);
   u8g2_ext.setFont(u8g2_font_10x20_mf);
 
-  u8g2_ext.setCursor(8, 30);
-  u8g2_ext.print(F("ZzzZZzZz..."));
+  if (type == 0) {
+    u8g2_ext.setCursor(25, 22);
+    u8g2_ext.print(F("Goodbye!"));
+  }
+  else if (type == 1) {
+    u8g2_ext.setCursor(8, 22);
+    u8g2_ext.print(F("ZzzZZzZz..."));
+  }
 
   display.display();
   display_ext.display();
