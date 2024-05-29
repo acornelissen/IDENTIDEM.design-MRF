@@ -138,8 +138,6 @@ void enableInternalPower() {
   bool polarity = digitalRead(PIN_I2C_POWER);
   pinMode(PIN_I2C_POWER, OUTPUT);
   digitalWrite(PIN_I2C_POWER, !polarity);
-  pinMode(NEOPIXEL_POWER, OUTPUT);
-  digitalWrite(NEOPIXEL_POWER, HIGH);
 }
 
 void disableInternalPower() {
