@@ -200,7 +200,7 @@ void setLightMeter()
 
 void toggleLidar()
 {
-  if (sleepMode == true)
+  if (sleepMode == true || deepSleep == true)
   {
     tfminiplus.sendCommand(DISABLE_OUTPUT, 0);
   }
