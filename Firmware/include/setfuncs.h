@@ -112,6 +112,11 @@ void setFilmCounter()
     }
 
     lastActivityTime = millis();
+
+    if (sleepMode == true) {
+        sleepMode = false;
+    }
+    
     savePrefs();
   }
 }

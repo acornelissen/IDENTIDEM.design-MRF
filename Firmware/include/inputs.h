@@ -3,12 +3,12 @@
 void checkButtons()
 {
   lbutton.update();
-
   if (deepSleep == true) {
     if (rbutton.isPressed()) { 
       longPress += rbutton.currentDuration();
 
       if (longPress >= 5000) {
+        lastActivityTime = millis();
         enableInternalPower();
         rtc_gpio_deinit(GPIO_NUM_10);
         deepSleep = false;
@@ -20,14 +20,13 @@ void checkButtons()
     }
   }
   else {
-    if (lbutton.isPressed() && lbutton.currentDuration() >= 5000) {
+    if (lbutton.isPressed() && lbutton.currentDuration() >= 5000 && DEEPSLEEP_ENABLED == true) {
       drawSleepUI(0);
       delay(1000);
       deepSleep = true;
     }
     else if (lbutton.rose() && lbutton.previousDuration() < 1000)
     {
-
       lastActivityTime = millis();
       if (sleepMode == true) {
         sleepMode = false;
@@ -75,6 +74,7 @@ void checkButtons()
   rbutton.update();
   if (rbutton.isPressed() && rbutton.currentDuration() >= 5000) 
   {
+    lastActivityTime = millis();
     if (ui_mode == "main")
     {
       ui_mode = "config";

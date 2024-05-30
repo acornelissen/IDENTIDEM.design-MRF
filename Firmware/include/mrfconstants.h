@@ -1,13 +1,14 @@
 // Constants
-#define FWVERSION "4.0"
+#define FWVERSION "4.5"
 #define SLEEPTIMEOUT 60000
+#define DEEPSLEEP_ENABLED false
 
 #define RXD2 RX
 #define TXD2 TX
 
-#define SS_SWITCH        24
-#define SS_NEOPIX        6
-#define SEESAW_ADDR   0x38
+#define SS_SWITCH 24
+#define SS_NEOPIX 6
+#define SEESAW_ADDR 0x38
 
 #define SCREEN_WIDTH 128        // OLED display width, in pixels
 #define SCREEN_HEIGHT 128        // OLED display height, in pixels

@@ -76,8 +76,17 @@ void setup()
   delay(500); // Slight delay or the displays won't work
 
   display_ext.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS_EXT);
+
+  // Boot up sceen
   display_ext.clearDisplay();
+  display_ext.setTextSize(2); // Draw 2X-scale text
+  display_ext.setTextColor(SSD1306_WHITE);
+  display_ext.setCursor(20, 10);
+  display_ext.print(F("MRF "));
+  display_ext.println(FWVERSION);
   display_ext.display();
+
+  delay(1000);
 
   u8g2_ext.begin(display_ext);
   display_ext.clearDisplay();
@@ -114,9 +123,11 @@ void setup()
     encoder.enableEncoderInterrupt();
   }
 
-  esp_sleep_enable_ext0_wakeup(GPIO_NUM_10,0);
-  rtc_gpio_pullup_en(GPIO_NUM_10);
-  rtc_gpio_pulldown_dis(GPIO_NUM_10);
+  if (DEEPSLEEP_ENABLED == true) {
+    esp_sleep_enable_ext0_wakeup(GPIO_NUM_10,0);
+    rtc_gpio_pullup_en(GPIO_NUM_10);
+    rtc_gpio_pulldown_dis(GPIO_NUM_10);
+  }
 }
 
 void loop()
@@ -127,8 +138,9 @@ void loop()
   }
 
   checkButtons();
+  setFilmCounter();
 
-  if (deepSleep == true)
+  if (deepSleep == true && DEEPSLEEP_ENABLED == true)
   {
     toggleLidar();
     disableInternalPower();
@@ -158,7 +170,6 @@ void loop()
       {
         drawCalibUI();
       }
-      setFilmCounter();
       drawExternalUI();
   }
 }
