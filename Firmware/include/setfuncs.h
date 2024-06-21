@@ -4,7 +4,6 @@ void setDistance()
 {
   if (tfminiplus.getData(distance))
   { // Get data from Lidar
-    Serial.println(distance);
     distance = distance + LIDAR_OFFSET;
     if (distance != prev_distance)
     {
