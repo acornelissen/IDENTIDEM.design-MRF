@@ -8,7 +8,7 @@
 
 #define SS_SWITCH 24
 #define SS_NEOPIX 6
-#define SEESAW_ADDR 0x38
+#define SEESAW_ADDR 0x36 // Set this to the address of the seesaw
 
 #define SCREEN_WIDTH 128        // OLED display width, in pixels
 #define SCREEN_HEIGHT 128        // OLED display height, in pixels
