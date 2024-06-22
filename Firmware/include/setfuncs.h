@@ -30,7 +30,7 @@ void setDistance()
 // https://github.com/makeabilitylab/arduino/blob/master/Filters/MovingAverageFilter/MovingAverageFilter.ino
 int getLensSensorReading()
 {
-  int sensorVal = ads1015.readADC_SingleEnded(1);
+  int sensorVal = ads1015.readADC_SingleEnded(LENS_ADC_PIN);
   return calcMovingAvg(0, sensorVal) / 10;
 }
 
@@ -79,7 +79,7 @@ void setLensDistance()
 
 void setFilmCounter()
 {
-  int encoder_position = -encoder.getEncoderPosition();
+  int encoder_position = -(encoder.getEncoderPosition()); // If your encoder is reading negative values, remove the negative sign
   if (encoder_position != prev_encoder_value && encoder_position > prev_encoder_value)
   {
     encoder_value = encoder_position;
