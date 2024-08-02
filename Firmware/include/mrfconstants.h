@@ -10,7 +10,7 @@
 #define SS_NEOPIX 6
 #define SEESAW_ADDR 0x36 // Set this to the address of the seesaw
 
-#define LENS_ADC_PIN = 0; // Set this to the pin you've soldered the lens position sensor to on the ADS1115
+#define LENS_ADC_PIN 0 // Set this to the pin you've soldered the lens position sensor to on the ADS1115
 
 #define SCREEN_WIDTH 128        // OLED display width, in pixels
 #define SCREEN_HEIGHT 128        // OLED display height, in pixels
@@ -21,13 +21,8 @@
 
 const int SMOOTHING_WINDOW_SIZE = 10;
 
-#define CIRCLE_X 33
-#define CIRCLE_Y 82
-#define CIRCLE_X_MAX 48
-#define CIRCLE_Y_MAX 92
-#define CIRCLE_X_CAP 43
-#define CIRCLE_Y_CAP 84
-#define CIRCLE_MAX_DIST 800
+#define RETICLE_OFFSET_X -7
+#define RETICLE_OFFSET_Y 3
 #define CLOSE_FOCUS 100
 #define LIDAR_OFFSET 10
 

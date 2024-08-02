@@ -33,8 +33,6 @@ void drawMainUI()
   u8g2.print(F("Lens:"));
   u8g2.print(lens_distance_cm);
 
-  //ReticlePosition reticlePosition = calculateReticlePosition(distance);
-
   display.fillRect(
     lenses[selected_lens].framelines[0], 
     lenses[selected_lens].framelines[1], 
@@ -64,8 +62,8 @@ void drawMainUI()
   );
 
   // Calculate the center of the rectangle
-  int rectCenterX = lenses[selected_lens].framelines[0] + lenses[selected_lens].framelines[2] / 2;
-  int rectCenterY = lenses[selected_lens].framelines[1] + lenses[selected_lens].framelines[3] / 2 - 5;
+  int rectCenterX = (lenses[selected_lens].framelines[0] + lenses[selected_lens].framelines[2] / 2) + RETICLE_OFFSET_X;
+  int rectCenterY = (lenses[selected_lens].framelines[1] + lenses[selected_lens].framelines[3] / 2 - 5) + RETICLE_OFFSET_Y;
  
   // Draw a circle at the center of the rectangle
   display.fillCircle(rectCenterX, rectCenterY, 4, WHITE);

@@ -1,9 +1,4 @@
-// Structs
-struct ReticlePosition
-{
-  int x;
-  int y;
-};
+
 
 // Helper functions
 // ---------------------
@@ -100,36 +95,6 @@ int_fast16_t getFocusRadius()
   int radius = min(maxRadius, max(minRadius, abs(distance - lens_distance_raw)));
 
   return radius;
-}
-
-ReticlePosition calculateReticlePosition(float distance)
-{
-
-  if (distance < CLOSE_FOCUS)
-  {
-    distance = CLOSE_FOCUS;
-  }
-
-  float ratio = min((distance - CLOSE_FOCUS) / (CIRCLE_MAX_DIST - CLOSE_FOCUS), 1.0f);
-
-  // Interpolate the new positions
-  int new_x = int(CIRCLE_X + (CIRCLE_X_MAX - CIRCLE_X) * (ratio * 3));
-  int new_y = CIRCLE_Y;
-
-  if (new_x > CIRCLE_X_CAP)
-  {
-    new_x = CIRCLE_X_CAP;
-  }
-  if (new_y > CIRCLE_Y_CAP)
-  {
-    new_y = CIRCLE_Y_CAP;
-  }
-
-  ReticlePosition reticlePosition;
-  reticlePosition.x = new_x;
-  reticlePosition.y = new_y;
-
-  return reticlePosition;
 }
 
 void enableInternalPower() {
