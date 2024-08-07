@@ -65,7 +65,7 @@ String cmToReadable(int cm)
   }
   else
   {
-    return String(float(cm) / 100, 1) + "m";
+    return String(float(cm) / 100, 2) + "m";
   }
 }
 
@@ -89,7 +89,7 @@ int calcMovingAvg(int index, int sensorVal)
 
 int_fast16_t getFocusRadius()
 {
-  int minRadius = 4;
+  int minRadius = 3;
   int maxRadius = 30;
 
   int radius = min(maxRadius, max(minRadius, abs(distance - lens_distance_raw)));

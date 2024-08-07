@@ -66,7 +66,7 @@ void drawMainUI()
   int rectCenterY = (lenses[selected_lens].framelines[1] + lenses[selected_lens].framelines[3] / 2 - 5) + RETICLE_OFFSET_Y;
  
   // Draw a circle at the center of the rectangle
-  display.fillCircle(rectCenterX, rectCenterY, 4, WHITE);
+  display.fillCircle(rectCenterX, rectCenterY, 3, WHITE);
   display.drawCircle(rectCenterX, rectCenterY, getFocusRadius(), WHITE);
 
   sensors_event_t a, g, temp;
@@ -76,7 +76,7 @@ void drawMainUI()
   float z = a.acceleration.z;
 
   // Convert accelerometer readings into angles
-  float pitch_scale = 15;
+  float pitch_scale = 25;
   float roll_scale = 0.5;
   float pitch = atan2(x, sqrt(x*x + z*z));
   float roll = atan2(y, sqrt(x*x + z*z));
@@ -105,9 +105,7 @@ void drawMainUI()
   float endY =  rectCenterY + length/2 * sin(roll) + pitch;
 
   // Draw the line on the display
-  display.drawLine(startX, startY - 1, endX, endY - 1, WHITE);  
-  display.drawLine(startX, startY, endX, endY, WHITE);  
-  display.drawLine(startX, startY + 1, endX, endY + 1, WHITE);  
+  display.drawLine(startX, startY, endX, endY, WHITE);   
 
   // Define the length of the vertical line
   int vertLineLength = 30;
