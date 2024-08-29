@@ -8,7 +8,7 @@
 
 #define SS_SWITCH 24
 #define SS_NEOPIX 6
-#define SEESAW_ADDR 0x36 // Set this to the address of the seesaw
+#define SEESAW_ADDR 0x38 // Set this to the address of the seesaw
 
 #define LENS_ADC_PIN 0 // Set this to the pin you've soldered the lens position sensor to on the ADS1115
 

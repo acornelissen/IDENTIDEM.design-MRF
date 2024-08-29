@@ -58,10 +58,10 @@ void setup()
   ads1015.begin();
   mpu.begin();
   ads1015.setGain(GAIN_ONE); 
-  lbutton.attach(9, INPUT_PULLUP);
+  lbutton.attach(10, INPUT_PULLUP);
   lbutton.interval(5);
   lbutton.setPressedState(LOW);
-  rbutton.attach(10, INPUT_PULLUP);
+  rbutton.attach(9, INPUT_PULLUP);
   rbutton.interval(5);
   rbutton.setPressedState(LOW);
 

@@ -31,7 +31,7 @@ void setDistance()
 int getLensSensorReading()
 {
   int sensorVal = ads1015.readADC_SingleEnded(LENS_ADC_PIN);
-  return calcMovingAvg(0, sensorVal) / 10;
+  return calcMovingAvg(0, sensorVal) / 100;
 }
 
 void setLensDistance()
