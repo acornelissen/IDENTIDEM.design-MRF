@@ -33,18 +33,6 @@ void cycleApertures(String direction)
   savePrefs();
 }
 
-void cycleISOs()
-{
-  iso_index++;
-  if (iso_index >= sizeof(ISOS) / sizeof(ISOS[0]))
-  {
-    iso_index = 0;
-  }
-
-  iso = ISOS[iso_index];
-  savePrefs();
-}
-
 void cycleLenses()
 {
   selected_lens++;
@@ -70,16 +58,6 @@ void cycleCalibLenses()
   if (calib_lens >= sizeof(lenses) / sizeof(lenses[0]))
   {
     calib_lens = 0;
-  }
-  savePrefs();
-}
-
-void cycleFormats()
-{
-  selected_format++;
-  if (selected_format >= sizeof(film_formats) / sizeof(film_formats[0]))
-  {
-    selected_format = 0;
   }
   savePrefs();
 }

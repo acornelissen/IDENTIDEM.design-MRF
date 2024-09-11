@@ -19,14 +19,14 @@ void loadPrefs()
   prefs.begin("mrf", false);
 
   if (prefs.isKey("iso")) {
-    iso = prefs.getInt("iso", 400);
-    iso_index = prefs.getInt("iso_index", 5);
+    iso = prefs.getInt("iso", 800);
+    iso_index = prefs.getInt("iso_index", 0);
 
     byte tempLenses[sizeof(lenses)];
     prefs.getBytes("lenses", tempLenses, sizeof(lenses));
     memcpy(lenses, tempLenses, sizeof(lenses));
 
-    selected_format = prefs.getInt("selected_format", 3);
+    selected_format = prefs.getInt("selected_format", 0);
     selected_lens = prefs.getInt("selected_lens", 1);
 
     int non_zero_aperture_index = getFirstNonZeroAperture();
@@ -34,8 +34,6 @@ void loadPrefs()
     aperture = prefs.getFloat("aperture", lenses[selected_lens].apertures[non_zero_aperture_index]);
     aperture_index = prefs.getInt("aperture_index", non_zero_aperture_index);
 
-    film_counter = prefs.getInt("film_counter", 0);
-    encoder_value = prefs.getInt("encoder_value", 0);
   }
 
   prefs.end();
@@ -50,8 +48,6 @@ void savePrefs()
   prefs.putInt("aperture_index", aperture_index);
   prefs.putInt("selected_format", selected_format);
   prefs.putInt("selected_lens", selected_lens);
-  prefs.putInt("film_counter", film_counter);
-  prefs.putInt("encoder_value", encoder_value);
   prefs.putBytes("lenses", (byte *)lenses, sizeof(lenses));
   prefs.end();
 }
@@ -97,17 +93,5 @@ int_fast16_t getFocusRadius()
   return radius;
 }
 
-void enableInternalPower() {
-  pinMode(PIN_I2C_POWER, INPUT);
-  delay(1);
-  bool polarity = digitalRead(PIN_I2C_POWER);
-  pinMode(PIN_I2C_POWER, OUTPUT);
-  digitalWrite(PIN_I2C_POWER, !polarity);
-}
-
-void disableInternalPower() {
-  // turn on the I2C power by setting pin to rest state (off)
-  pinMode(PIN_I2C_POWER, INPUT);
-}
 
 // ---------------------

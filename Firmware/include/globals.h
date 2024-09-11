@@ -5,14 +5,14 @@ Preferences prefs;
 // Variables
 // ---------------------
 // Lightmeter
-int prev_iso = 400;
-int iso = 400;
+int prev_iso = 800;
+int iso = 800;
 float prev_aperture;
 float aperture;
 float prev_lux = 0;
 float lux = 0;
 String shutter_speed = "...";
-int iso_index = 5;
+int iso_index = 0;
 int aperture_index;
 
 // Filter algorithm
@@ -43,17 +43,11 @@ String ui_mode = "main";
 int config_step = 0;
 int calib_step = 0;
 int selected_lens = 1;
-int selected_format = 3;
+int selected_format = 0;
 int calib_lens = 0;
 
 int calib_distance_set[7] = {};
 int current_calib_distance = 0;
-
-int film_counter = 0;
-int prev_encoder_value = 0;
-int encoder_value = 0;
-float frame_progress = 0;
-float prev_frame_progress = 0;
 
 unsigned long lastActivityTime = millis();
 bool sleepMode = false;

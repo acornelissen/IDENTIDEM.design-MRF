@@ -10,14 +10,9 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_SH110X.h>
 #include <Adafruit_MAX1704X.h>
-#include <Adafruit_ADS1X15.h>
-#include <Adafruit_MPU6050.h>
-#include <Adafruit_Sensor.h>
 #include <TFMPlus.h>
-#include <BH1750.h>
 #include <U8g2_for_Adafruit_GFX.h>
 #include <Bounce2.h>
-#include <Adafruit_seesaw.h>
 #include <seesaw_neopixel.h>
 #include <Preferences.h>
 #include <math.h>
@@ -55,9 +50,6 @@ void setup()
   loadPrefs();
 
   // Initialise inputs
-  ads1015.begin();
-  mpu.begin();
-  ads1015.setGain(GAIN_ONE); 
   lbutton.attach(9, INPUT_PULLUP);
   lbutton.interval(5);
   lbutton.setPressedState(LOW);
@@ -68,29 +60,11 @@ void setup()
   delay(1000); // Slight delay or the displays won't work
   display.begin(0x3D, true); // Address 0x3D default
   display.oled_command(0xC8);
-  display.setRotation(3);
+  display.setRotation(1);
   u8g2.begin(display);
   display.clearDisplay();
   display.display();
 
-  delay(500); // Slight delay or the displays won't work
-
-  display_ext.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS_EXT);
-
-  // Boot up sceen
-  display_ext.clearDisplay();
-  display_ext.setTextSize(2); // Draw 2X-scale text
-  display_ext.setTextColor(SSD1306_WHITE);
-  display_ext.setCursor(20, 10);
-  display_ext.print(F("MRF "));
-  display_ext.println(FWVERSION);
-  display_ext.display();
-
-  delay(1000);
-
-  u8g2_ext.begin(display_ext);
-  display_ext.clearDisplay();
-  display_ext.display();
 
   // Start the LiDAR sensor
   lidarSerial.begin(115200, SERIAL_8N1, RXD2, TXD2);
@@ -99,54 +73,32 @@ void setup()
 
   // Clear the moving average arrays
   for (int i = 0; i < SMOOTHING_WINDOW_SIZE; i++)
-  {
+  { 
     samples[0][i] = 0;
     samples[1][i] = 0;
   }
 
   // Start the battery gauge and lightmeter
   maxlipo.begin();
-  lightMeter.begin();
 
-  // Seesaw NEOpixel
-  if (sspixel.begin(SEESAW_ADDR)) {
-    delay(10);
-    sspixel.setBrightness(80);
-    sspixel.show();
-  }
-
-
-  // Start the encoder
-  if (encoder.begin(SEESAW_ADDR)) {
-    delay(10);
-    encoder.setEncoderPosition(-encoder_value);
-    encoder.enableEncoderInterrupt();
-  }
-
-  if (DEEPSLEEP_ENABLED == true) {
-    esp_sleep_enable_ext0_wakeup(GPIO_NUM_10,0);
-    rtc_gpio_pullup_en(GPIO_NUM_10);
-    rtc_gpio_pulldown_dis(GPIO_NUM_10);
-  }
+  // if (DEEPSLEEP_ENABLED == true) {
+  //   esp_sleep_enable_ext0_wakeup(GPIO_NUM_10,0);
+  //   rtc_gpio_pullup_en(GPIO_NUM_10);
+  //   rtc_gpio_pulldown_dis(GPIO_NUM_10);
+  // }
 }
 
 void loop()
 {
   
-  if (millis() - lastActivityTime > SLEEPTIMEOUT) { // Step 3
-    sleepMode = true;
-  }
+  // if (millis() - lastActivityTime > SLEEPTIMEOUT) { // Step 3
+  //   sleepMode = true;
+  // }
 
   checkButtons();
-  setFilmCounter();
 
-  if (deepSleep == true && DEEPSLEEP_ENABLED == true)
-  {
-    toggleLidar();
-    disableInternalPower();
-    esp_deep_sleep_start();
-  }
-  else if (sleepMode == true)
+
+  if (sleepMode == true)
   {
     toggleLidar();
     drawSleepUI(1);
@@ -159,7 +111,6 @@ void loop()
         setDistance();
         setLensDistance();
         setVoltage();
-        setLightMeter();
         drawMainUI();
       }
       else if (ui_mode == "config")
@@ -170,7 +121,6 @@ void loop()
       {
         drawCalibUI();
       }
-      drawExternalUI();
   }
 }
 // ---------------------
