@@ -273,7 +273,7 @@ void drawCalibUI()
   u8g2.print(F(" "));
   u8g2.print(CALIB_DISTANCES[current_calib_distance], 1);
   u8g2.print(F("m: "));
-  u8g2.print(getLensSensorReading());
+  u8g2.print(lens_sensor_reading);
   u8g2.print(F(" "));
 
   u8g2.setBackgroundColor(BLACK);

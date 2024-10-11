@@ -52,7 +52,7 @@ void checkButtons()
           }
           if (calib_step == 1)
           {
-            calib_distance_set[current_calib_distance] = getLensSensorReading();
+            calib_distance_set[current_calib_distance] = lens_sensor_reading;
             current_calib_distance++;
             if (current_calib_distance >= sizeof(CALIB_DISTANCES) / sizeof(CALIB_DISTANCES[0]))
             {

@@ -55,9 +55,11 @@ void setup()
   loadPrefs();
 
   // Initialise inputs
-  ads1015.begin();
+  ads1115.begin();
   mpu.begin();
-  ads1015.setGain(GAIN_ONE); 
+
+  ads1115.setDataRate(RATE_ADS1115_16SPS);
+  ads1115.setGain(GAIN_ONE); 
   lbutton.attach(10, INPUT_PULLUP);
   lbutton.interval(5);
   lbutton.setPressedState(LOW);
@@ -168,6 +170,7 @@ void loop()
       }
       else if (ui_mode == "calib")
       {
+        lens_sensor_reading = getLensSensorReading();
         drawCalibUI();
       }
       drawExternalUI();

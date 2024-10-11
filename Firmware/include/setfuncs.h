@@ -30,8 +30,12 @@ void setDistance()
 // https://github.com/makeabilitylab/arduino/blob/master/Filters/MovingAverageFilter/MovingAverageFilter.ino
 int getLensSensorReading()
 {
-  int sensorVal = ads1015.readADC_SingleEnded(LENS_ADC_PIN);
-  return 1000 - (calcMovingAvg(0, sensorVal) / 100);
+  float sensorVal = floor(ads1115.readADC_SingleEnded(LENS_ADC_PIN) / 10);
+  // Make sure your sensor's + and GND are connected the right way around.
+  // You want the value to increase as the focus distance increases.
+  // 1m should be smallest, 10m should be largest. If not, swap the wires.
+
+  return calcMovingAvg(0, sensorVal);
 }
 
 void setLensDistance()
@@ -51,22 +55,22 @@ void setLensDistance()
 
     for (int i = 0; i < sizeof(lenses[selected_lens].sensor_reading) / sizeof(lenses[selected_lens].sensor_reading[0]); i++)
     {
-      if (lens_sensor_reading > lenses[selected_lens].sensor_reading[0])
+      if (lens_sensor_reading < lenses[selected_lens].sensor_reading[0])
       {
         lens_distance_raw = lenses[selected_lens].distance[0] * 100;
         lens_distance_cm = cmToReadable(lens_distance_raw);
       }
-      else if (lens_sensor_reading < lenses[selected_lens].sensor_reading[sizeof(lenses[selected_lens].sensor_reading) / sizeof(lenses[selected_lens].sensor_reading[0]) - 1] - 5)
+      else if (lens_sensor_reading > lenses[selected_lens].sensor_reading[sizeof(lenses[selected_lens].sensor_reading) / sizeof(lenses[selected_lens].sensor_reading[0]) - 1] + LENS_INF_THRESHOLD)
       {
         lens_distance_raw = 9999999;
         lens_distance_cm = "Inf.";
       }
-      if (lens_sensor_reading == lenses[selected_lens].sensor_reading[i])
+      else if (lens_sensor_reading == lenses[selected_lens].sensor_reading[i])
       {
         lens_distance_raw = lenses[selected_lens].distance[i] * 100;
         lens_distance_cm = cmToReadable(lens_distance_raw);
       }
-      else if (lens_sensor_reading < lenses[selected_lens].sensor_reading[i] && lens_sensor_reading > lenses[selected_lens].sensor_reading[i + 1])
+      else if (lens_sensor_reading > lenses[selected_lens].sensor_reading[i] && lens_sensor_reading < lenses[selected_lens].sensor_reading[i + 1])
       {
         float distance = lenses[selected_lens].distance[i] + (lens_sensor_reading - lenses[selected_lens].sensor_reading[i]) * (lenses[selected_lens].distance[i + 1] - lenses[selected_lens].distance[i]) / (lenses[selected_lens].sensor_reading[i + 1] - lenses[selected_lens].sensor_reading[i]);
         lens_distance_raw = distance * 100;
@@ -79,7 +83,8 @@ void setLensDistance()
 
 void setFilmCounter()
 {
-  int encoder_position = -(encoder.getEncoderPosition()); // If your encoder is reading negative values, remove the negative sign
+
+  int encoder_position = encoder.getEncoderPosition();
   if (encoder_position != prev_encoder_value && encoder_position > prev_encoder_value)
   {
     encoder_value = encoder_position;
