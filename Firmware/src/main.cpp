@@ -59,7 +59,7 @@ void setup()
   mpu.begin();
 
   ads1115.setDataRate(RATE_ADS1115_16SPS);
-  ads1115.setGain(GAIN_ONE); 
+  ads1115.setGain(GAIN_TWOTHIRDS); 
   lbutton.attach(10, INPUT_PULLUP);
   lbutton.interval(5);
   lbutton.setPressedState(LOW);
@@ -158,8 +158,8 @@ void loop()
     
     if (ui_mode == "main")
       { 
-        setDistance();
         setLensDistance();
+        setDistance();
         setVoltage();
         setLightMeter();
         drawMainUI();
@@ -170,7 +170,7 @@ void loop()
       }
       else if (ui_mode == "calib")
       {
-        lens_sensor_reading = getLensSensorReading();
+        lens_sensor_reading = getLensSensorReading() - LENS_CALIB_OFFSET;
         drawCalibUI();
       }
       drawExternalUI();

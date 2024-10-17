@@ -65,7 +65,7 @@ String cmToReadable(int cm)
   }
   else
   {
-    return String(float(cm) / 100, 2) + "m";
+    return String(float(cm) / 100, 1) + "m";
   }
 }
 

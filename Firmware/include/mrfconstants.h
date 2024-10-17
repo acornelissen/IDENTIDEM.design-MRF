@@ -1,5 +1,5 @@
 // Constants
-#define FWVERSION "4.5"
+#define FWVERSION "6.0"
 #define SLEEPTIMEOUT 60000
 #define DEEPSLEEP_ENABLED false
 
@@ -10,7 +10,7 @@
 #define SS_NEOPIX 6
 #define SEESAW_ADDR 0x36 // Set this to the address of the seesaw
 
-#define LENS_ADC_PIN 1 // Set this to the pin you've soldered the lens position sensor to on the ADS1115
+#define LENS_ADC_PIN 2 // Set this to the pin you've soldered the lens position sensor to on the ADS1115
 
 #define SCREEN_WIDTH 128        // OLED display width, in pixels
 #define SCREEN_HEIGHT 128        // OLED display height, in pixels
@@ -19,11 +19,12 @@
 #define SCREEN_ADDRESS 0x3D     ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 #define SCREEN_ADDRESS_EXT 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 
-const int SMOOTHING_WINDOW_SIZE = 3;
+const int SMOOTHING_WINDOW_SIZE = 5;
 const int LENS_INF_THRESHOLD = 10;
+const int LENS_CALIB_OFFSET = 5;
 
-#define RETICLE_OFFSET_X -7
-#define RETICLE_OFFSET_Y 3
+#define RETICLE_OFFSET_X 4
+#define RETICLE_OFFSET_Y -6
 #define CLOSE_FOCUS 100
 #define LIDAR_OFFSET 10
 
