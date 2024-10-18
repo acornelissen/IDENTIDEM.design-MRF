@@ -42,7 +42,7 @@ int bat_per = 0;
 String ui_mode = "main";
 int config_step = 0;
 int calib_step = 0;
-int selected_lens = 1;
+int selected_lens = 3;
 int selected_format = 0;
 int calib_lens = 0;
 

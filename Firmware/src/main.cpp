@@ -10,6 +10,7 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_SH110X.h>
 #include <Adafruit_MAX1704X.h>
+#include <BH1750.h>
 #include <TFMPlus.h>
 #include <U8g2_for_Adafruit_GFX.h>
 #include <Bounce2.h>
@@ -50,10 +51,10 @@ void setup()
   loadPrefs();
 
   // Initialise inputs
-  lbutton.attach(9, INPUT_PULLUP);
+  lbutton.attach(10, INPUT_PULLUP);
   lbutton.interval(5);
   lbutton.setPressedState(LOW);
-  rbutton.attach(10, INPUT_PULLUP);
+  rbutton.attach(9, INPUT_PULLUP);
   rbutton.interval(5);
   rbutton.setPressedState(LOW);
 
@@ -80,20 +81,16 @@ void setup()
 
   // Start the battery gauge and lightmeter
   maxlipo.begin();
+  lightMeter.begin();
 
-  // if (DEEPSLEEP_ENABLED == true) {
-  //   esp_sleep_enable_ext0_wakeup(GPIO_NUM_10,0);
-  //   rtc_gpio_pullup_en(GPIO_NUM_10);
-  //   rtc_gpio_pulldown_dis(GPIO_NUM_10);
-  // }
 }
 
 void loop()
 {
   
-  // if (millis() - lastActivityTime > SLEEPTIMEOUT) { // Step 3
-  //   sleepMode = true;
-  // }
+  if (millis() - lastActivityTime > SLEEPTIMEOUT) {
+    sleepMode = true;
+  }
 
   checkButtons();
 
@@ -110,6 +107,7 @@ void loop()
       { 
         setDistance();
         setLensDistance();
+        setLightMeter();
         setVoltage();
         drawMainUI();
       }

@@ -8,6 +8,9 @@ Bounce2::Button rbutton = Bounce2::Button();
 // Battery gauge
 Adafruit_MAX17048 maxlipo;
 
+// Lightmeter
+BH1750 lightMeter;
+
 // LiDAR setup
 TFMPlus tfminiplus;
 HardwareSerial lidarSerial(2); // Using serial port 2

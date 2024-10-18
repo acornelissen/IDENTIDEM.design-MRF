@@ -1,5 +1,5 @@
 // Constants
-#define FWVERSION "1.5"
+#define FWVERSION "2.5"
 #define SLEEPTIMEOUT 60000
 #define DEEPSLEEP_ENABLED false
 
@@ -15,8 +15,8 @@
 
 const int SMOOTHING_WINDOW_SIZE = 25;
 
-#define RETICLE_OFFSET_X -7
-#define RETICLE_OFFSET_Y 3
+#define RETICLE_OFFSET_X 0
+#define RETICLE_OFFSET_Y 0
 #define CLOSE_FOCUS 100
 #define LIDAR_OFFSET 10
 

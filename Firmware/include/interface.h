@@ -195,16 +195,17 @@ void drawCalibUI()
   if (calib_step == 0)
   {
     u8g2.setCursor(3, 70);
-    u8g2.print(F(" (L) to Cycle"));
+    u8g2.print(F(" (UP) to Select"));
     u8g2.setCursor(3, 81);
-    u8g2.print(F(" (R) to Select"));
+    u8g2.print(F(" (DOWN) to Cycle"));
   }
   else
   {
     u8g2.setCursor(3, 70);
-    u8g2.print(F(" (L) to Select"));
+    u8g2.print(F(" (UP) to Cancel"));
     u8g2.setCursor(3, 81);
-    u8g2.print(F(" (R) to Cancel"));
+    u8g2.print(F(" (DOWN) to Select"));
+   
   }
 
   display.display();

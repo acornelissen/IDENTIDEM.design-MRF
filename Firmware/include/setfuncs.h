@@ -92,6 +92,73 @@ void setVoltage()
   }
 }
 
+void setLightMeter()
+{
+  lux = lightMeter.readLightLevel();
+
+  if (lux != prev_lux)
+  {
+    prev_lux = lux;
+    if (lux <= 0)
+    {
+      shutter_speed = "Dark!";
+    }
+    else
+    {
+
+      if (aperture == 0)
+      {
+        cycleApertures("up");
+      }
+
+      float speed = round(((aperture * aperture) * K) / (lux * iso) * 1000.0) / 1000.0;
+
+      struct SpeedRange
+      {
+        float lower;
+        float upper;
+        const char *print_speed_range;
+      };
+
+      SpeedRange speed_ranges[] = {
+          {0.001, 0.002, "1/1000"},
+          {0.002, 0.004, "1/500"},
+          {0.004, 0.008, "1/250"},
+          {0.008, 0.016, "1/125"},
+          {0.016, 0.033, "1/60"},
+          {0.033, 0.066, "1/30"},
+          {0.066, 0.125, "1/15"},
+          {0.125, 0.250, "1/8"},
+          {0.250, 0.500, "1/4"},
+          {0.500, 1, "1/2"}};
+
+      char print_speed[10];
+      dtostrf(speed, 4, 1, print_speed);
+
+      for (int i = 0; i < sizeof(speed_ranges) / sizeof(speed_ranges[0]); i++)
+      {
+        if (speed_ranges[i].lower <= speed && speed < speed_ranges[i].upper)
+        {
+          strcpy(print_speed, speed_ranges[i].print_speed_range);
+          break;
+        }
+      }
+
+     
+      if (speed >= 1)
+      {
+        char print_speed_raw[10];
+        dtostrf(speed, 4, 2, print_speed_raw);
+        shutter_speed = strcat(print_speed_raw, " sec.");
+      }
+      else {
+         shutter_speed = strcat(print_speed, " sec.");
+      }
+       
+    }
+  }
+}
+
 
 void toggleLidar()
 {
