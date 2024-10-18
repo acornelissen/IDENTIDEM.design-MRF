@@ -4,35 +4,6 @@ void drawMainUI()
 {
   display.clearDisplay();
 
-  u8g2.setFontMode(1);
-  u8g2.setFontDirection(0);
-  u8g2.setForegroundColor(BLACK);
-  u8g2.setBackgroundColor(WHITE);
-  u8g2.setFont(u8g2_font_4x6_mf);
-  display.fillRect(0, 0, 128, 15, WHITE);
-  display.drawLine(64, 0, 64, 128, BLACK);
-  u8g2.setCursor(2, 7);
-  u8g2.print(F("ISO"));
-  u8g2.print(iso);
-  u8g2.setCursor(46, 7);
-  u8g2.print(F("f"));
-  if (aperture == static_cast<int>(aperture))
-  {
-    u8g2.print(static_cast<int>(aperture));
-  }
-  else
-  {
-    u8g2.print(aperture, 1);
-  }
-  u8g2.setCursor(2, 14);
-  u8g2.print(shutter_speed);
-  u8g2.setCursor(68, 7);
-  u8g2.print(F("Dist:"));
-  u8g2.print(distance_cm);
-  u8g2.setCursor(68, 14);
-  u8g2.print(F("Lens:"));
-  u8g2.print(lens_distance_cm);
-
   display.fillRect(
     lenses[selected_lens].framelines[0], 
     lenses[selected_lens].framelines[1], 
@@ -68,6 +39,46 @@ void drawMainUI()
   // Draw a circle at the center of the rectangle
   display.fillCircle(rectCenterX, rectCenterY, 3, WHITE);
   display.drawCircle(rectCenterX, rectCenterY, getFocusRadius(), WHITE);
+
+
+  // State
+  u8g2.setFontMode(1);
+  u8g2.setFontDirection(0);
+  u8g2.setForegroundColor(BLACK);
+  u8g2.setBackgroundColor(WHITE);
+  u8g2.setFont(u8g2_font_4x6_mf);
+  display.fillRect(0, 0, 128, 27, WHITE);
+  display.drawLine(64, 0, 64, 27, BLACK);
+  display.drawLine(0, 16, 128, 16, BLACK);
+  u8g2.setCursor(2, 7);
+  u8g2.print(F("ISO"));
+  u8g2.print(iso);
+  u8g2.setCursor(46, 7);
+  u8g2.print(F("f"));
+  if (aperture == static_cast<int>(aperture))
+  {
+    u8g2.print(static_cast<int>(aperture));
+  }
+  else
+  {
+    u8g2.print(aperture, 1);
+  }
+  u8g2.setCursor(2, 14);
+  u8g2.print(shutter_speed);
+  u8g2.setCursor(68, 7);
+  u8g2.print(F("Dist:"));
+  u8g2.print(distance_cm);
+  u8g2.setCursor(68, 14);
+  u8g2.print(F("Focus:"));
+  u8g2.print(lens_distance_cm);
+
+  u8g2.setCursor(2, 25);
+  u8g2.print(F("Lens:"));
+  u8g2.print(lenses[selected_lens].name);
+  u8g2.setCursor(68, 25);
+  u8g2.print(F("Bat:"));
+  u8g2.print(bat_per);
+  u8g2.print(F("%"));
 
 
   display.display();
