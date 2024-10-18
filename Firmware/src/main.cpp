@@ -98,7 +98,7 @@ void loop()
   if (sleepMode == true)
   {
     toggleLidar();
-    drawSleepUI(1);
+    drawSleepUI();
   }
   else { 
     toggleLidar();

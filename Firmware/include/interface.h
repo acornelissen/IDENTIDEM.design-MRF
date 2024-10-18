@@ -211,9 +211,25 @@ void drawCalibUI()
   display.display();
 }
 
-void drawSleepUI(int type)
-{
+void drawSleepUI() {
   display.clearDisplay();
+
+  u8g2.setFontMode(1);
+  u8g2.setFontDirection(0);
+  u8g2.setForegroundColor(WHITE);
+  u8g2.setFont(u8g2_font_4x6_mf);
+  
+  // Calculate the width of the text to be centered
+  const char* text = "ZZZZZZZZZzzzzzZZzzZZzzzz....";
+  int16_t textWidth = u8g2.getUTF8Width(text);
+
+  // Calculate the x position to center the text
+  int16_t x = (SCREEN_WIDTH - textWidth) / 2;
+
+  // Set the cursor to the calculated position
+  u8g2.setCursor(x, SCREEN_HEIGHT / 2);
+  u8g2.print(F(text));
+
   display.display();
 }
 
