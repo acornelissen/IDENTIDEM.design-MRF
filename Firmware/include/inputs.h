@@ -3,68 +3,45 @@
 void checkButtons()
 {
   lbutton.update();
-  if (deepSleep == true) {
-    if (rbutton.isPressed()) { 
-      longPress += rbutton.currentDuration();
-
-      if (longPress >= 5000) {
-        lastActivityTime = millis();
-        enableInternalPower();
-        rtc_gpio_deinit(GPIO_NUM_10);
-        deepSleep = false;
+  if (lbutton.rose() && lbutton.previousDuration() < 1000)
+  {
+    lastActivityTime = millis();
+    if (sleepMode == true) {
+      sleepMode = false;
+    }
+    else {
+      if (ui_mode == "main")
+      {
+        cycleApertures("down");
       }
-    }
-    else if (rbutton.rose() && rbutton.previousDuration() < 5000)
-    {
-      longPress = 0;
-    }
-  }
-  else {
-    if (lbutton.isPressed() && lbutton.currentDuration() >= 5000 && DEEPSLEEP_ENABLED == true) {
-      drawSleepUI(0);
-      delay(1000);
-      deepSleep = true;
-    }
-    else if (lbutton.rose() && lbutton.previousDuration() < 1000)
-    {
-      lastActivityTime = millis();
-      if (sleepMode == true) {
-        sleepMode = false;
+      else if (ui_mode == "config")
+      {
+        config_step++;
+        if (config_step > 5)
+        {
+          config_step = 0;
+        }
       }
-      else {
-        if (ui_mode == "main")
+      else if (ui_mode == "calib")
+      {
+        if (calib_step == 0)
         {
-          cycleApertures("down");
+          cycleCalibLenses();
         }
-        else if (ui_mode == "config")
+        if (calib_step == 1)
         {
-          config_step++;
-          if (config_step > 5)
+          calib_distance_set[current_calib_distance] = lens_sensor_reading;
+          current_calib_distance++;
+          if (current_calib_distance >= sizeof(CALIB_DISTANCES) / sizeof(CALIB_DISTANCES[0]))
           {
-            config_step = 0;
-          }
-        }
-        else if (ui_mode == "calib")
-        {
-          if (calib_step == 0)
-          {
-            cycleCalibLenses();
-          }
-          if (calib_step == 1)
-          {
-            calib_distance_set[current_calib_distance] = lens_sensor_reading;
-            current_calib_distance++;
-            if (current_calib_distance >= sizeof(CALIB_DISTANCES) / sizeof(CALIB_DISTANCES[0]))
+            lenses[calib_lens].calibrated = true;
+            for (int i = 0; i < sizeof(calib_distance_set) / sizeof(calib_distance_set[0]); i++)
             {
-              lenses[calib_lens].calibrated = true;
-              for (int i = 0; i < sizeof(calib_distance_set) / sizeof(calib_distance_set[0]); i++)
-              {
-                lenses[calib_lens].sensor_reading[i] = calib_distance_set[i];
-              }
-              savePrefs();
-              selected_lens = calib_lens;
-              ui_mode = "config";
+              lenses[calib_lens].sensor_reading[i] = calib_distance_set[i];
             }
+            savePrefs();
+            selected_lens = calib_lens;
+            ui_mode = "config";
           }
         }
       }

@@ -209,13 +209,15 @@ void setLightMeter()
 
 void toggleLidar()
 {
-  if (sleepMode == true || deepSleep == true)
+  if (sleepMode == true && lidarStatus == true)
   {
     tfminiplus.sendCommand(DISABLE_OUTPUT, 0);
+    lidarStatus = false;
   }
   else
   {
     tfminiplus.sendCommand(ENABLE_OUTPUT, 0);
+    lidarStatus = true;
   }
 }
 // ---------------------

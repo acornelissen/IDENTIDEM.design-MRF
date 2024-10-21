@@ -52,14 +52,14 @@ void setup()
   esp_wifi_stop(); // Stop WiFi to save power
   esp_bt_controller_disable(); // Stop Bluetooth to save power
 
-  loadPrefs();
+  //loadPrefs();
 
   // Initialise inputs
   ads1115.begin();
   mpu.begin();
 
   ads1115.setDataRate(RATE_ADS1115_16SPS);
-  ads1115.setGain(GAIN_TWOTHIRDS); 
+  ads1115.setGain(GAIN_ONE); 
   lbutton.attach(10, INPUT_PULLUP);
   lbutton.interval(5);
   lbutton.setPressedState(LOW);
@@ -125,33 +125,22 @@ void setup()
     encoder.enableEncoderInterrupt();
   }
 
-  if (DEEPSLEEP_ENABLED == true) {
-    esp_sleep_enable_ext0_wakeup(GPIO_NUM_10,0);
-    rtc_gpio_pullup_en(GPIO_NUM_10);
-    rtc_gpio_pulldown_dis(GPIO_NUM_10);
-  }
 }
 
 void loop()
 {
   
-  if (millis() - lastActivityTime > SLEEPTIMEOUT) { // Step 3
+  if (millis() - lastActivityTime > SLEEPTIMEOUT) {
     sleepMode = true;
   }
 
   checkButtons();
   setFilmCounter();
 
-  if (deepSleep == true && DEEPSLEEP_ENABLED == true)
+  if (sleepMode == true)
   {
     toggleLidar();
-    disableInternalPower();
-    esp_deep_sleep_start();
-  }
-  else if (sleepMode == true)
-  {
-    toggleLidar();
-    drawSleepUI(1);
+    drawSleepUI();
   }
   else { 
     toggleLidar();

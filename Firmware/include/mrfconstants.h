@@ -1,7 +1,6 @@
 // Constants
 #define FWVERSION "6.0"
 #define SLEEPTIMEOUT 60000
-#define DEEPSLEEP_ENABLED false
 
 #define RXD2 RX
 #define TXD2 TX

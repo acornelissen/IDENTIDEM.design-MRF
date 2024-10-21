@@ -394,7 +394,7 @@ void drawExternalUI()
   display_ext.display();
 }
 
-void drawSleepUI(int type)
+void drawSleepUI()
 {
   display.clearDisplay();
   display_ext.clearDisplay();
@@ -405,14 +405,9 @@ void drawSleepUI(int type)
   u8g2_ext.setBackgroundColor(BLACK);
   u8g2_ext.setFont(u8g2_font_10x20_mf);
 
-  if (type == 0) {
-    u8g2_ext.setCursor(25, 22);
-    u8g2_ext.print(F("Goodbye!"));
-  }
-  else if (type == 1) {
-    u8g2_ext.setCursor(8, 22);
-    u8g2_ext.print(F("ZzzZZzZz..."));
-  }
+
+  u8g2_ext.setCursor(8, 22);
+  u8g2_ext.print(F("ZzzZZzZz..."));
 
   display.display();
   display_ext.display();
