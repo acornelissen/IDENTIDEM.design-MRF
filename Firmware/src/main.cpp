@@ -52,7 +52,7 @@ void setup()
   esp_wifi_stop(); // Stop WiFi to save power
   esp_bt_controller_disable(); // Stop Bluetooth to save power
 
-  //loadPrefs();
+  loadPrefs();
 
   // Initialise inputs
   ads1115.begin();
