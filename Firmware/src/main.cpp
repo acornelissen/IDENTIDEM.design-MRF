@@ -66,7 +66,7 @@ void setup()
   rbutton.setPressedState(LOW);
 
   delay(1000); // Slight delay or the displays won't work
-  display.begin(0x3D, true); // Address 0x3D default
+  display.begin(SCREEN_ADDRESS, true); // Address 0x3D default
   display.oled_command(0xC8);
   display.setRotation(3);
   u8g2.begin(display);
@@ -119,7 +119,7 @@ void setup()
   // Start the encoder
   if (encoder.begin(SEESAW_ADDR)) {
     delay(10);
-    encoder.setEncoderPosition(-encoder_value);
+    encoder.setEncoderPosition(encoder_value);
     encoder.enableEncoderInterrupt();
   }
 

@@ -1,5 +1,5 @@
 // Constants
-#define FWVERSION "4.5"
+#define FWVERSION "5.0"
 #define SLEEPTIMEOUT 60000
 #define DEEPSLEEP_ENABLED false
 

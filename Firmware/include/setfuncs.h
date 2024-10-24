@@ -79,7 +79,7 @@ void setLensDistance()
 
 void setFilmCounter()
 {
-  int encoder_position = -(encoder.getEncoderPosition()); // If your encoder is reading negative values, remove the negative sign
+  int encoder_position = encoder.getEncoderPosition();
   if (encoder_position != prev_encoder_value && encoder_position > prev_encoder_value)
   {
     encoder_value = encoder_position;
