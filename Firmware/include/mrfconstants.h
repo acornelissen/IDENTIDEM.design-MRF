@@ -19,8 +19,8 @@
 #define SCREEN_ADDRESS_EXT 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 
 const int SMOOTHING_WINDOW_SIZE = 5;
-const int LENS_INF_THRESHOLD = 10;
-const int LENS_CALIB_OFFSET = 5;
+const int LENS_INF_THRESHOLD = 5;
+const int LENS_CALIB_OFFSET = 0;
 
 #define RETICLE_OFFSET_X 4
 #define RETICLE_OFFSET_Y -6

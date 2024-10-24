@@ -59,7 +59,7 @@ void setup()
   mpu.begin();
 
   ads1115.setDataRate(RATE_ADS1115_16SPS);
-  ads1115.setGain(GAIN_ONE); 
+  ads1115.setGain(GAIN_TWOTHIRDS); 
   lbutton.attach(10, INPUT_PULLUP);
   lbutton.interval(5);
   lbutton.setPressedState(LOW);
@@ -121,7 +121,7 @@ void setup()
   // Start the encoder
   if (encoder.begin(SEESAW_ADDR)) {
     delay(10);
-    encoder.setEncoderPosition(-encoder_value);
+    encoder.setEncoderPosition(encoder_value);
     encoder.enableEncoderInterrupt();
   }
 
