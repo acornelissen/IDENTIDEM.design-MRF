@@ -87,6 +87,13 @@ void setFilmCounter()
   int encoder_position = encoder.getEncoderPosition();
   if (encoder_position != prev_encoder_value && encoder_position > prev_encoder_value)
   {
+
+    lastActivityTime = millis();
+
+    if (sleepMode == true) {
+        sleepMode = false;
+    }
+
     encoder_value = encoder_position;
     prev_encoder_value = encoder_value;
 
@@ -113,12 +120,6 @@ void setFilmCounter()
         }
         
       }
-    }
-
-    lastActivityTime = millis();
-
-    if (sleepMode == true) {
-        sleepMode = false;
     }
     
     savePrefs();
