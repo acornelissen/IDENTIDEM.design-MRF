@@ -139,11 +139,11 @@ void loop()
 
   if (sleepMode == true)
   {
-    toggleLidar();
+    toggleLidar(false);
     drawSleepUI();
   }
   else { 
-    toggleLidar();
+    toggleLidar(true);
     
     if (ui_mode == "main")
       { 

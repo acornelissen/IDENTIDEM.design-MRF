@@ -208,9 +208,9 @@ void setLightMeter()
   }
 }
 
-void toggleLidar()
+void toggleLidar(bool lidarStatus)
 {
-  if (sleepMode == true && lidarStatus == true)
+  if (lidarStatus == false)
   {
     tfminiplus.sendCommand(DISABLE_OUTPUT, 0);
     lidarStatus = false;

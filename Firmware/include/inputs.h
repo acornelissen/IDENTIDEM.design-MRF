@@ -49,7 +49,7 @@ void checkButtons()
   }
 
   rbutton.update();
-  if (rbutton.isPressed() && rbutton.currentDuration() >= 5000) 
+  if (rbutton.isPressed() && rbutton.currentDuration() >= 3000) 
   {
     lastActivityTime = millis();
     if (ui_mode == "main")
