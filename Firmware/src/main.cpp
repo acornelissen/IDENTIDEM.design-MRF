@@ -142,17 +142,17 @@ void loop()
 
   if (deepSleep == true && DEEPSLEEP_ENABLED == true)
   {
-    toggleLidar();
+    toggleLidar(false);
     disableInternalPower();
     esp_deep_sleep_start();
   }
   else if (sleepMode == true)
   {
-    toggleLidar();
+    toggleLidar(false);
     drawSleepUI(1);
   }
   else { 
-    toggleLidar();
+    toggleLidar(true);
     
     if (ui_mode == "main")
       { 
