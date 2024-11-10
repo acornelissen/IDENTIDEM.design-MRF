@@ -16,7 +16,7 @@ void setDistance()
         distance_cm = "< " + String(DISTANCE_MIN) + "cm";
       }
       else {
-        distance_cm = cmToReadable(distance);
+        distance_cm = cmToReadable(distance, 2);
       }
       prev_distance = distance;
     }
@@ -30,7 +30,7 @@ void setDistance()
 // https://github.com/makeabilitylab/arduino/blob/master/Filters/MovingAverageFilter/MovingAverageFilter.ino
 int getLensSensorReading()
 {
-  float sensorVal = floor(ads1115.readADC_SingleEnded(LENS_ADC_PIN) / 10);
+  float sensorVal = round(ads1115.readADC_SingleEnded(LENS_ADC_PIN) / 10);
   // Make sure your sensor's + and GND are connected the right way around.
   // You want the value to increase as the focus distance increases.
   // 1m should be smallest, 10m should be largest. If not, swap the wires.
@@ -58,7 +58,7 @@ void setLensDistance()
       if (lens_sensor_reading < lenses[selected_lens].sensor_reading[0])
       {
         lens_distance_raw = lenses[selected_lens].distance[0] * 100;
-        lens_distance_cm = cmToReadable(lens_distance_raw);
+        lens_distance_cm = cmToReadable(lens_distance_raw, 1);
       }
       else if (lens_sensor_reading > lenses[selected_lens].sensor_reading[sizeof(lenses[selected_lens].sensor_reading) / sizeof(lenses[selected_lens].sensor_reading[0]) - 1] + LENS_INF_THRESHOLD)
       {
@@ -68,13 +68,13 @@ void setLensDistance()
       else if (lens_sensor_reading == lenses[selected_lens].sensor_reading[i])
       {
         lens_distance_raw = lenses[selected_lens].distance[i] * 100;
-        lens_distance_cm = cmToReadable(lens_distance_raw);
+        lens_distance_cm = cmToReadable(lens_distance_raw, 1);
       }
       else if (lens_sensor_reading > lenses[selected_lens].sensor_reading[i] && lens_sensor_reading < lenses[selected_lens].sensor_reading[i + 1])
       {
         float distance = lenses[selected_lens].distance[i] + (lens_sensor_reading - lenses[selected_lens].sensor_reading[i]) * (lenses[selected_lens].distance[i + 1] - lenses[selected_lens].distance[i]) / (lenses[selected_lens].sensor_reading[i + 1] - lenses[selected_lens].sensor_reading[i]);
         lens_distance_raw = distance * 100;
-        lens_distance_cm = cmToReadable(lens_distance_raw);
+        lens_distance_cm = cmToReadable(lens_distance_raw, 1);
       }
     }
 

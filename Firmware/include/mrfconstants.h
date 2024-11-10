@@ -20,12 +20,12 @@
 
 const int SMOOTHING_WINDOW_SIZE = 5;
 const int LENS_INF_THRESHOLD = 5;
-const int LENS_CALIB_OFFSET = 0;
+const int LENS_CALIB_OFFSET = 5;
 
 #define RETICLE_OFFSET_X 2
 #define RETICLE_OFFSET_Y -2
 #define CLOSE_FOCUS 100
-#define LIDAR_OFFSET 10
+#define LIDAR_OFFSET 5
 
 #define DISTANCE_MIN 15
 #define DISTANCE_MAX 12

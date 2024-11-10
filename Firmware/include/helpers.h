@@ -56,7 +56,7 @@ void savePrefs()
   prefs.end();
 }
 
-String cmToReadable(int cm)
+String cmToReadable(int cm, int places)
 {
 
   if (cm < 100)
@@ -65,7 +65,7 @@ String cmToReadable(int cm)
   }
   else
   {
-    return String(float(cm) / 100, 2) + "m";
+    return String(float(cm) / 100, places) + "m";
   }
 }
 
