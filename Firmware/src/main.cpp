@@ -144,13 +144,13 @@ void loop()
   }
   else { 
     toggleLidar(true);
+    setDistance();
+    setVoltage();
+    setLightMeter();
     
     if (ui_mode == "main")
       { 
         setLensDistance();
-        setDistance();
-        setVoltage();
-        setLightMeter();
         drawMainUI();
       }
       else if (ui_mode == "config")
@@ -158,7 +158,7 @@ void loop()
         drawConfigUI();
       }
       else if (ui_mode == "calib")
-      {
+      { 
         lens_sensor_reading = getLensSensorReading() - LENS_CALIB_OFFSET;
         drawCalibUI();
       }

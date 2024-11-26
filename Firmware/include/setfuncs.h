@@ -85,6 +85,7 @@ void setFilmCounter()
 {
 
   int encoder_position = encoder.getEncoderPosition();
+
   if (encoder_position != prev_encoder_value && encoder_position > prev_encoder_value)
   {
 
@@ -119,6 +120,10 @@ void setFilmCounter()
           frame_progress = static_cast<float>(encoder_value - film_formats[selected_format].sensor[i]) / (film_formats[selected_format].sensor[i + 1] - film_formats[selected_format].sensor[i]);
         }
         
+      }
+      else if (film_formats[selected_format].frame[i] == 99 && encoder_value >= film_formats[selected_format].sensor[i]) {
+        film_counter = 99;
+        frame_progress = 0;
       }
     }
     
