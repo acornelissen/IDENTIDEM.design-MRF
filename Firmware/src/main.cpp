@@ -97,18 +97,19 @@ void loop()
 
   if (sleepMode == true)
   {
-    toggleLidar();
+    toggleLidar(false);
     drawSleepUI();
   }
   else { 
-    toggleLidar();
+    toggleLidar(true);
+    setDistance();
+    setLightMeter();
+    setVoltage();
     
     if (ui_mode == "main")
       { 
-        setDistance();
+       
         setLensDistance();
-        setLightMeter();
-        setVoltage();
         drawMainUI();
       }
       else if (ui_mode == "config")

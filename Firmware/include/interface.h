@@ -4,18 +4,25 @@ void drawMainUI()
 {
   display.clearDisplay();
 
-  display.fillRect(
-    lenses[selected_lens].framelines[0], 
-    lenses[selected_lens].framelines[1], 
-    lenses[selected_lens].framelines[2],
-    lenses[selected_lens].framelines[3], 
-    WHITE
-  );
-
   int new_width = int(lenses[selected_lens].framelines[2] * film_formats[selected_format].frame_fill[1] / 100);
   int new_height =  int(lenses[selected_lens].framelines[3] * film_formats[selected_format].frame_fill[0] / 100);
   int width_offset = lenses[selected_lens].framelines[0] + (lenses[selected_lens].framelines[2] - new_width) / 2;
   int heigh_offset = lenses[selected_lens].framelines[1] + (lenses[selected_lens].framelines[3] - new_height) / 2;
+
+  // Calculate the magnification factor
+  float magnification_factor = 1.0;
+  if (lens_distance_raw >= 100 && lens_distance_raw <= 1000) {
+    magnification_factor = 0.8 + (lens_distance_raw - 100) * (1.0 - 0.8) / (1000 - 100);
+  }
+
+  // Adjust the rectangle to the magnification factor
+  new_width = int(new_width * magnification_factor);
+  new_height = int(new_height * magnification_factor);
+
+  // Anchor to the bottom right corner
+  width_offset = lenses[selected_lens].framelines[0] + lenses[selected_lens].framelines[2] - new_width;
+  heigh_offset = lenses[selected_lens].framelines[1] + lenses[selected_lens].framelines[3] - new_height;
+
   
   display.fillRect(
     width_offset,
@@ -206,16 +213,16 @@ void drawCalibUI()
   if (calib_step == 0)
   {
     u8g2.setCursor(3, 70);
-    u8g2.print(F(" (UP) to Select"));
+    u8g2.print(F(" (DOWN) to Select"));
     u8g2.setCursor(3, 81);
-    u8g2.print(F(" (DOWN) to Cycle"));
+    u8g2.print(F(" (UP) to Cycle"));
   }
   else
   {
     u8g2.setCursor(3, 70);
-    u8g2.print(F(" (UP) to Cancel"));
+    u8g2.print(F(" (DOWN) to Cancel"));
     u8g2.setCursor(3, 81);
-    u8g2.print(F(" (DOWN) to Select"));
+    u8g2.print(F(" (UP) to Select"));
    
   }
 

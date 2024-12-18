@@ -31,6 +31,7 @@ void setDistance()
 int getLensSensorReading()
 {
   int sensorVal = analogRead(A1);
+  Serial.println(sensorVal / 10);
   return calcMovingAvg(0, sensorVal) / 10;
 }
 
@@ -160,15 +161,17 @@ void setLightMeter()
 }
 
 
-void toggleLidar()
+void toggleLidar(bool lidarStatus)
 {
-  if (sleepMode == true || deepSleep == true)
+  if (lidarStatus == false)
   {
     tfminiplus.sendCommand(DISABLE_OUTPUT, 0);
+    lidarStatus = false;
   }
   else
   {
     tfminiplus.sendCommand(ENABLE_OUTPUT, 0);
+    lidarStatus = true;
   }
 }
 // ---------------------
