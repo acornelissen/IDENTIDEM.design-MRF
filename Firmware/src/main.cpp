@@ -1,4 +1,4 @@
-// IDENTIDEM.design (M)edium Format (R)ange(F)inder firmware vPro.3.0
+// IDENTIDEM.design (M)edium Format (R)ange(F)inder firmware vPro.7.0
 //
 // Pro version of MRF firmware uses
 // - Adafruit STEMMA I2C QT Rotary Encoder breakout 4991
@@ -19,7 +19,6 @@
 #include <Bounce2.h>
 #include <Adafruit_seesaw.h>
 #include <seesaw_neopixel.h>
-#include <Preferences.h>
 #include <math.h>
 
 #include "driver/rtc_io.h"
@@ -37,7 +36,7 @@
 
 // Functions
 #include <helpers.h>
-#include <cyclefuncs.h>
+#include <cyclefuncs.h> 
 #include <setfuncs.h>
 #include <interface.h>
 #include <inputs.h>
