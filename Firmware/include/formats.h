@@ -1,18 +1,20 @@
+#ifndef FORMATS_H
+#define FORMATS_H
+
+#include <Arduino.h> // For String type
+
 struct FilmFormat
 {
   int id;
   String name;
-  int sensor[22];
-  int frame[22];
-  int frame_fill[4];
+  int sensor[22]; 
+  int frame[22];  
+  int frame_fill[2];
 };
 
-FilmFormat film_formats[] = {
-  {35, "PANO", {0, 50, 85, 120, 155, 190, 225, 260, 295, 330, 365, 400, 435, 470, 505, 540, 575, 610, 645, 680, 715, 800}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 99}, {37,100}},
-  {645, "6x4.5", {0, 134, 157, 179, 200, 220, 240, 259, 278, 296, 314, 331, 348, 365, 381, 397, 413, 550}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 99}, {100,64}},
-  {66, "6x6", {0, 137, 167, 195, 222, 248, 273, 297, 321, 344, 366, 388, 409, 550}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 99}, {100,86}},
-  {67, "6x7", {0, 140, 174, 206, 237, 267, 295, 322, 349, 375, 400, 550}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99}, {100,100}},
-  {69, "6x9", {0, 142, 185, 225, 263, 299, 334, 367, 399, 550}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 99}, {100,120}} 
-};
+// Declare the array as extern, the actual data will be in formats.cpp
+extern FilmFormat film_formats[];
+// Declare a constant for the number of formats
+extern const size_t NUM_FILM_FORMATS;
 
-
+#endif // FORMATS_H

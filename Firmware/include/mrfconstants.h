@@ -1,5 +1,8 @@
+#ifndef MRFCONSTANTS_H
+#define MRFCONSTANTS_H
+
 // Constants
-#define FWVERSION "6.0"
+#define FWVERSION "7.0"
 #define SLEEPTIMEOUT 60000
 
 #define RXD2 RX
@@ -34,3 +37,9 @@ const int ISOS[] = {50, 80, 100, 125, 200, 400, 500, 640, 800, 1600, 3200, 6400}
 const float CALIB_DISTANCES[] = {1, 1.2, 1.5, 2, 3, 5, 10};
 
 const int K = 20;
+
+#define LENS_ACTIVITY_THRESHOLD 3 // ADC units change needed to register activity
+#define FILM_SNAP_THRESHOLD 2     // Encoder units proximity to snap to next frame
+#define LUX_CHANGE_THRESHOLD 0.5f // Minimum lux change to trigger recalculation
+
+#endif // MRFCONSTANTS_H
