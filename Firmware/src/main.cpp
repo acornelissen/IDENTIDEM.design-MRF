@@ -1,9 +1,4 @@
-// IDENTIDEM.design (M)edium Format (R)ange(F)inder firmware vPro.3.0
-//
-// Pro version of MRF firmware uses
-// - Adafruit STEMMA I2C QT Rotary Encoder breakout 4991
-// - TFMini Plus LiDAR sensor
-// - Bigger optics
+// IDENTIDEM.design (M)edium Format (R)ange(F)inder firmware
 
 #include <Arduino.h>
 #include <Wire.h>
@@ -123,11 +118,6 @@ void setup()
     encoder.enableEncoderInterrupt();
   }
 
-  if (DEEPSLEEP_ENABLED == true) {
-    esp_sleep_enable_ext0_wakeup(GPIO_NUM_10,0);
-    rtc_gpio_pullup_en(GPIO_NUM_10);
-    rtc_gpio_pulldown_dis(GPIO_NUM_10);
-  }
 }
 
 void loop()
@@ -140,16 +130,10 @@ void loop()
   checkButtons();
   setFilmCounter();
 
-  if (deepSleep == true && DEEPSLEEP_ENABLED == true)
+  if (sleepMode == true)
   {
     toggleLidar(false);
-    disableInternalPower();
-    esp_deep_sleep_start();
-  }
-  else if (sleepMode == true)
-  {
-    toggleLidar(false);
-    drawSleepUI(1);
+    drawSleepUI();
   }
   else { 
     toggleLidar(true);

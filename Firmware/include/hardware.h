@@ -1,27 +1,46 @@
+#ifndef HARDWARE_H_
+#define HARDWARE_H_
+
+// These includes provide the declarations for the types used below
+#include <Adafruit_seesaw.h>
+#include <seesaw_neopixel.h>
+#include <Adafruit_ADS1X15.h>
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_MAX1704X.h>
+#include <BH1750.h>
+#include <TFMPlus.h>
+#include <Adafruit_SH110X.h>
+#include <Adafruit_SSD1306.h>
+#include <U8g2_for_Adafruit_GFX.h>
+#include <Bounce2.h>
+#include <HardwareSerial.h>
+
 // Hardware init
 // ---------------------
 // Inputs
-Adafruit_seesaw encoder;
-Adafruit_ADS1115 ads1015;
-Adafruit_MPU6050 mpu;
+extern Adafruit_seesaw encoder;
+extern Adafruit_ADS1115 ads1015;
+extern Adafruit_MPU6050 mpu;
 
-seesaw_NeoPixel sspixel = seesaw_NeoPixel(1, SS_NEOPIX, NEO_GRB + NEO_KHZ800);
-Bounce2::Button lbutton = Bounce2::Button();
-Bounce2::Button rbutton = Bounce2::Button();
+extern seesaw_NeoPixel sspixel;
+extern Bounce2::Button lbutton;
+extern Bounce2::Button rbutton;
 
 // Battery gauge
-Adafruit_MAX17048 maxlipo;
+extern Adafruit_MAX17048 maxlipo;
 
 // Lightmeter
-BH1750 lightMeter;
+extern BH1750 lightMeter;
 
 // LiDAR setup
-TFMPlus tfminiplus;
-HardwareSerial lidarSerial(2); // Using serial port 2
+extern TFMPlus tfminiplus;
+extern HardwareSerial lidarSerial;
 
 // Display setup
-Adafruit_SH1107 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET, 1000000, 1000000);
-Adafruit_SSD1306 display_ext(SCREEN_WIDTH, SCREEN_HEIGHT_EXT, &Wire, OLED_RESET);
-U8G2_FOR_ADAFRUIT_GFX u8g2;
-U8G2_FOR_ADAFRUIT_GFX u8g2_ext;
+extern Adafruit_SH1107 display;
+extern Adafruit_SSD1306 display_ext;
+extern U8G2_FOR_ADAFRUIT_GFX u8g2;
+extern U8G2_FOR_ADAFRUIT_GFX u8g2_ext;
 // ---------------------
+
+#endif // HARDWARE_H_
