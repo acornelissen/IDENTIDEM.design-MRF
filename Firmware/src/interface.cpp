@@ -76,8 +76,8 @@ void drawMainUI()
 
     // Calculate inner mask dimensions based on film format aspect ratio fill percentage
     // Ensure frame_fill values are within reasonable bounds (e.g., 0-100)
-    int fillPercentW = constrain(film_formats[selected_format].frame_fill[1], 0, 100);
-    int fillPercentH = constrain(film_formats[selected_format].frame_fill[0], 0, 100);
+    int fillPercentW = film_formats[selected_format].frame_fill[1];
+    int fillPercentH = film_formats[selected_format].frame_fill[0];
 
     int maskW = static_cast<int>(frameW * (fillPercentW / 100.0f));
     int maskH = static_cast<int>(frameH * (fillPercentH / 100.0f));
@@ -399,10 +399,12 @@ void drawExternalUI()
       // Show the *previous* frame number small while progressing
       u8g2_ext.setFont(u8g2_font_6x10_mf); // Use a smaller font
       String prevCounterStr = String(film_counter);
-      int textWidth = u8g2_ext.getUTF8Width(prevCounterStr.c_str());
-      // Position it, for example, bottom-right below the progress bar
-      int textX = PROGRESS_BAR_X + PROGRESS_BAR_WIDTH - textWidth - 1; // Align right
-      int textY = PROGRESS_BAR_Y + PROGRESS_BAR_HEIGHT + 8; // Below progress bar
+      int textWidth = u8g2_ext.getUTF8Width(prevCounterStr.c_str());      
+      
+      int textX = (PROGRESS_BAR_X - textWidth) / 2; // Center in the space left of the progress bar
+      if (textX < 1) textX = 1; // Ensure it's at least slightly offset from the edge
+
+      int textY = PROGRESS_BAR_Y + (PROGRESS_BAR_HEIGHT - 10) / 2 + 8; 
       u8g2_ext.setCursor(textX, textY);
       u8g2_ext.print(prevCounterStr);
   }

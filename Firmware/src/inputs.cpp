@@ -121,8 +121,8 @@ void checkButtons()
           frame_progress = 0.0f;
           prev_frame_progress = 0.0f;
           savePrefs(); // Save the reset counter state
-          // Maybe add feedback here
-          break; // Stay in config menu after reset? Or exit? Current code exits.
+          ui_mode = "main";
+          break; 
         case 5: // Exit Config Mode
           ui_mode = "main";
           config_step = 0; // Reset config step for next time
