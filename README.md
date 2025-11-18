@@ -2,6 +2,8 @@
 
 **Before anything else, a big thank you to Oscar from Panomicron for making the CAD files for his [Thulium 6x9](https://www.panomicron.com/thulium) available for download. This camera is a heavily modified version of the Thulium, and wouldn't exist if it wasn't for Oscar's excellent work.**
 
+_[MRF2 has dropped!](https://github.com/acornelissen/IDENTIDEM.design-MRF2) It's a more involved, slightly more complex build, but has improvements all around._
+
 My goal for this camera was to build _my_ ideal medium format rangefinder using what I learned from designing and building the LRF45, with no limits on complexity, cost, and time. As I kept working on it, it evolved and evolved, and I think I've finally reached that goal.
 
 The detailed build guide should drop soon(ish). For now though, everything you need to build one of your own modern medium format rangefinders is in this repository.
